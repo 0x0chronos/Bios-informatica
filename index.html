@@ -1,0 +1,2855 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Bios Informática - Manutenção especializada de computadores, notebooks, celulares e criação de sites em Guarujá, Santos e região. Suporte remoto para todo o Brasil.">
+    <meta name="theme-color" content="#0a1628">
+    <title>Bios Informática | Manutenção e TI em Guarujá e Santos</title>
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.biosinformatica.com.br">
+    <meta property="og:title" content="Bios Informática | Manutenção e TI em Guarujá e Santos">
+    <meta property="og:description" content="Assistência técnica especializada em computadores, notebooks, celulares e criação de sites otimizados (SEO). Atendimento em Guarujá e Santos.">
+    <meta property="og:image" content="https://www.biosinformatica.com.br/assets/og-image.png">
+    <!-- JSON-LD LocalBusiness -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Bios Informática",
+      "image": "https://www.biosinformatica.com.br/assets/og-image.png",
+      "@id": "https://www.biosinformatica.com.br/#localbusiness",
+      "url": "https://www.biosinformatica.com.br",
+      "telephone": "+5513996222130",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rua Alameda Deus Me Deu",
+        "addressLocality": "Guarujá",
+        "addressRegion": "SP",
+        "postalCode": "11470-260",
+        "addressCountry": "BR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -23.9935,
+        "longitude": -46.2558
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+        ],
+        "opens": "09:00",
+        "closes": "18:00"
+      },
+      "sameAs": [
+        "https://wa.me/5513996222130"
+      ]
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bios-primary: #00d4aa;
+            --bios-primary-dark: #00b894;
+            --bios-primary-glow: rgba(0, 212, 170, 0.15);
+            --bios-secondary: #0ea5e9;
+            --bios-accent: #6366f1;
+            --bg-deep: #0a0f1a;
+            --bg-dark: #0f172a;
+            --bg-card: rgba(15, 23, 42, 0.85);
+            --bg-glass: rgba(15, 23, 42, 0.6);
+            --bg-glass-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 1.5rem;
+            --space-lg: 2rem;
+            --space-xl: 3rem;
+            --space-2xl: 5rem;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 0 40px rgba(0, 212, 170, 0.1);
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1)
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-deep)
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bios-primary-dark);
+            border-radius: 4px
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--bios-primary)
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(0, 212, 170, 0.2)
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(0, 212, 170, 0.4)
+            }
+        }
+
+        @keyframes typing {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0
+            }
+
+            100% {
+                background-position: 200% 0
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image: linear-gradient(rgba(0, 212, 170, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 170, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none
+        }
+
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(ellipse at 20% 20%, rgba(0, 212, 170, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 80% 80%, rgba(99, 102, 241, 0.06) 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, rgba(14, 165, 233, 0.04) 0%, transparent 60%);
+            pointer-events: none
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: var(--space-sm) var(--space-lg);
+            background: rgba(10, 15, 26, 0.8);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--bg-glass-border);
+            transition: var(--transition-base)
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 15, 26, 0.95);
+            box-shadow: var(--shadow-lg)
+        }
+
+        .navbar-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            text-decoration: none;
+            color: var(--text-primary)
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--bios-primary), var(--bios-secondary));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: var(--bg-deep);
+            border-radius: 10px
+        }
+
+        .logo-icon svg {
+            position: relative;
+            z-index: 1;
+            width: 22px;
+            height: 22px
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em
+        }
+
+        .logo-text span {
+            color: var(--bios-primary)
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: var(--space-lg);
+            list-style: none
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: var(--transition-fast);
+            position: relative
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--bios-primary);
+            transition: var(--transition-base)
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary)
+        }
+
+        .nav-links a:hover::after {
+            width: 100%
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--bios-primary), var(--bios-primary-dark));
+            color: var(--bg-deep) !important;
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            transition: var(--transition-base);
+            box-shadow: 0 4px 15px rgba(0, 212, 170, 0.3)
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 212, 170, 0.4)
+        }
+
+        .nav-cta::after {
+            display: none !important
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: var(--space-xs)
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: calc(80px + var(--space-2xl)) var(--space-lg) var(--space-2xl);
+            position: relative;
+            overflow: hidden
+        }
+
+        .hero-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-2xl);
+            align-items: center;
+            width: 100%
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            background: var(--bios-primary-glow);
+            border: 1px solid rgba(0, 212, 170, 0.2);
+            color: var(--bios-primary);
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+            animation: fadeInUp 0.6s ease
+        }
+
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--bios-primary);
+            border-radius: 50%;
+            animation: pulse-glow 2s infinite
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: var(--space-md);
+            animation: fadeInUp 0.6s ease 0.1s both
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--bios-primary), var(--bios-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 540px;
+            margin-bottom: var(--space-xl);
+            animation: fadeInUp 0.6s ease 0.2s both
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s ease 0.3s both
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: 0.875rem 1.75rem;
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-base);
+            font-family: var(--font-sans)
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--bios-primary), var(--bios-primary-dark));
+            color: var(--bg-deep);
+            box-shadow: 0 4px 20px rgba(0, 212, 170, 0.3)
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 212, 170, 0.4)
+        }
+
+        .btn-secondary {
+            background: var(--bg-glass);
+            color: var(--text-primary);
+            border: 1px solid var(--bg-glass-border);
+            backdrop-filter: blur(10px)
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.15)
+        }
+
+        .hero-visual {
+            position: relative;
+            animation: fadeIn 1s ease 0.4s both
+        }
+
+        .hero-card {
+            background: var(--bg-card);
+            border: 1px solid var(--bg-glass-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-lg);
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 212, 170, 0.1) 0%, transparent 70%);
+            pointer-events: none
+        }
+
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-md);
+            padding-bottom: var(--space-sm);
+            border-bottom: 1px solid var(--bg-glass-border)
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%
+        }
+
+        .terminal-dot.red {
+            background: #ef4444
+        }
+
+        .terminal-dot.yellow {
+            background: #f59e0b
+        }
+
+        .terminal-dot.green {
+            background: #10b981
+        }
+
+        .terminal-title {
+            margin-left: auto;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted)
+        }
+
+        .terminal-body {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            line-height: 1.8
+        }
+
+        .terminal-line {
+            display: flex;
+            gap: var(--space-xs)
+        }
+
+        .terminal-prompt {
+            color: var(--bios-primary);
+            font-weight: 600
+        }
+
+        .terminal-text {
+            color: var(--text-secondary)
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background: var(--bios-primary);
+            animation: typing 1s infinite;
+            vertical-align: middle;
+            margin-left: 2px
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600
+        }
+
+        .status-online {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3)
+        }
+
+        .status-online::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse-glow 2s infinite
+        }
+
+        .track-section {
+            padding: var(--space-xl) var(--space-lg);
+            position: relative;
+            z-index: 10
+        }
+
+        .track-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(99, 102, 241, 0.1));
+            border: 1px solid rgba(0, 212, 170, 0.2);
+            border-radius: var(--radius-xl);
+            padding: var(--space-lg);
+            backdrop-filter: blur(20px);
+            text-align: center
+        }
+
+        .track-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: var(--space-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-xs)
+        }
+
+        .track-form {
+            display: flex;
+            gap: var(--space-sm);
+            max-width: 500px;
+            margin: 0 auto
+        }
+
+        .track-input {
+            flex: 1;
+            background: var(--bg-glass);
+            border: 1px solid var(--bg-glass-border);
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition-fast)
+        }
+
+        .track-input:focus {
+            border-color: var(--bios-primary);
+            box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1)
+        }
+
+        .track-input::placeholder {
+            color: var(--text-muted)
+        }
+
+        .section {
+            padding: var(--space-2xl) var(--space-lg);
+            max-width: 1280px;
+            margin: 0 auto
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--space-2xl)
+        }
+
+        .section-label {
+            display: inline-block;
+            background: var(--bios-primary-glow);
+            color: var(--bios-primary);
+            padding: 0.35rem 1rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.05em
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--space-sm)
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-lg)
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--bg-glass-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            transition: var(--transition-base);
+            position: relative;
+            overflow: hidden
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--bios-primary), var(--bios-secondary));
+            transform: scaleX(0);
+            transition: var(--transition-base)
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 170, 0.2);
+            box-shadow: var(--shadow-glow)
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1)
+        }
+
+        .service-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.15), rgba(14, 165, 233, 0.15));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-md);
+            border: 1px solid rgba(0, 212, 170, 0.1)
+        }
+
+        .service-icon svg {
+            width: 28px;
+            height: 28px;
+            color: var(--bios-primary)
+        }
+
+        .service-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: var(--space-xs)
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: var(--space-md)
+        }
+
+        .service-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem
+        }
+
+        .service-tag {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--bg-glass-border);
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono)
+        }
+
+        .remote-section {
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.05), rgba(99, 102, 241, 0.05));
+            border-top: 1px solid var(--bg-glass-border);
+            border-bottom: 1px solid var(--bg-glass-border)
+        }
+
+        .remote-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-2xl);
+            align-items: center
+        }
+
+        .remote-content h2 {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 800;
+            margin-bottom: var(--space-md);
+            letter-spacing: -0.02em
+        }
+
+        .remote-content p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: var(--space-lg)
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg)
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-md)
+        }
+
+        .step-number {
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            background: linear-gradient(135deg, var(--bios-primary), var(--bios-secondary));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--bg-deep)
+        }
+
+        .step-text h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.2rem
+        }
+
+        .step-text p {
+            font-size: 0.875rem;
+            margin: 0
+        }
+
+        .remote-visual {
+            position: relative
+        }
+
+        .remote-visual-inner {
+            background: var(--bg-card);
+            border: 1px solid var(--bg-glass-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-lg);
+            backdrop-filter: blur(20px)
+        }
+
+        .remote-screen {
+            background: var(--bg-deep);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            border: 1px solid var(--bg-glass-border);
+            font-family: var(--font-mono);
+            font-size: 0.8rem
+        }
+
+        .remote-screen-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-sm);
+            padding-bottom: var(--space-xs);
+            border-bottom: 1px solid var(--bg-glass-border)
+        }
+
+        .remote-bar {
+            height: 6px;
+            border-radius: 3px;
+            background: var(--bg-glass-border);
+            margin-bottom: 6px
+        }
+
+        .remote-bar.fill {
+            background: linear-gradient(90deg, var(--bios-primary), var(--bios-secondary));
+            animation: shimmer 2s infinite;
+            background-size: 200% 100%
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-lg)
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: var(--space-xl);
+            background: var(--bg-card);
+            border: 1px solid var(--bg-glass-border);
+            border-radius: var(--radius-xl);
+            transition: var(--transition-base)
+        }
+
+        .feature-item:hover {
+            transform: translateY(-3px);
+            border-color: rgba(0, 212, 170, 0.15)
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto var(--space-md);
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(99, 102, 241, 0.1));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(0, 212, 170, 0.1)
+        }
+
+        .feature-icon svg {
+            width: 30px;
+            height: 30px;
+            color: var(--bios-primary)
+        }
+
+        .feature-item h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: var(--space-xs)
+        }
+
+        .feature-item p {
+            color: var(--text-secondary);
+            font-size: 0.9rem
+        }
+
+        .booking-section {
+            background: linear-gradient(180deg, var(--bg-deep), rgba(0, 212, 170, 0.03))
+        }
+
+        .booking-container {
+            max-width: 900px;
+            margin: 0 auto
+        }
+
+        .booking-card {
+            background: var(--bg-card);
+            border: 1px solid var(--bg-glass-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            backdrop-filter: blur(20px)
+        }
+
+        .booking-form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-md)
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem
+        }
+
+        .form-group.full {
+            grid-column: 1/-1
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary)
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background: var(--bg-glass);
+            border: 1px solid var(--bg-glass-border);
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition-fast)
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--bios-primary);
+            box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1)
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-muted)
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px
+        }
+
+        .service-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem
+        }
+
+        .service-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 0.8rem;
+            background: var(--bg-glass);
+            border: 1px solid var(--bg-glass-border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            font-size: 0.85rem
+        }
+
+        .service-option:hover {
+            border-color: rgba(0, 212, 170, 0.3)
+        }
+
+        .service-option input {
+            accent-color: var(--bios-primary)
+        }
+
+        .service-option.selected {
+            border-color: var(--bios-primary);
+            background: rgba(0, 212, 170, 0.08)
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            margin-top: var(--space-sm)
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            background: var(--bg-glass);
+            border: 1px solid transparent
+        }
+
+        .calendar-day:hover:not(.disabled):not(.selected) {
+            background: rgba(0, 212, 170, 0.1);
+            border-color: rgba(0, 212, 170, 0.2)
+        }
+
+        .calendar-day.selected {
+            background: var(--bios-primary);
+            color: var(--bg-deep);
+            font-weight: 600
+        }
+
+        .calendar-day.disabled {
+            color: var(--text-muted);
+            cursor: not-allowed;
+            opacity: 0.4
+        }
+
+        .calendar-day.today {
+            border-color: var(--bios-primary)
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-sm)
+        }
+
+        .calendar-nav {
+            background: var(--bg-glass);
+            border: 1px solid var(--bg-glass-border);
+            color: var(--text-primary);
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast)
+        }
+
+        .calendar-nav:hover {
+            background: rgba(0, 212, 170, 0.1);
+            border-color: var(--bios-primary)
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            margin-bottom: 4px
+        }
+
+        .calendar-weekday {
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-top: var(--space-sm)
+        }
+
+        .time-slot {
+            padding: 0.5rem;
+            text-align: center;
+            background: var(--bg-glass);
+            border: 1px solid var(--bg-glass-border);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition-fast)
+        }
+
+        .time-slot:hover:not(.disabled) {
+            border-color: var(--bios-primary);
+            background: rgba(0, 212, 170, 0.08)
+        }
+
+        .time-slot.selected {
+            background: var(--bios-primary);
+            color: var(--bg-deep);
+            font-weight: 600;
+            border-color: var(--bios-primary)
+        }
+
+        .time-slot.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            text-decoration: line-through
+        }
+
+        .os-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--bg-glass-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            max-width: 700px;
+            margin: 0 auto;
+            backdrop-filter: blur(20px)
+        }
+
+        .os-search {
+            display: flex;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-xl)
+        }
+
+        .os-result {
+            display: none
+        }
+
+        .os-result.active {
+            display: block;
+            animation: fadeIn 0.4s ease
+        }
+
+        .os-timeline {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: var(--space-xl) 0
+        }
+
+        .os-timeline::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--bg-glass-border);
+            z-index: 0
+        }
+
+        .os-timeline-progress {
+            position: absolute;
+            top: 15px;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--bios-primary), var(--bios-secondary));
+            z-index: 1;
+            transition: width 0.6s ease
+        }
+
+        .os-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-xs);
+            position: relative;
+            z-index: 2
+        }
+
+        .os-step-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg-dark);
+            border: 2px solid var(--bg-glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-base)
+        }
+
+        .os-step-dot svg {
+            width: 14px;
+            height: 14px;
+            color: var(--text-muted)
+        }
+
+        .os-step.completed .os-step-dot {
+            background: var(--bios-primary);
+            border-color: var(--bios-primary)
+        }
+
+        .os-step.completed .os-step-dot svg {
+            color: var(--bg-deep)
+        }
+
+        .os-step.active .os-step-dot {
+            background: var(--bg-dark);
+            border-color: var(--bios-primary);
+            box-shadow: 0 0 0 4px rgba(0, 212, 170, 0.2);
+            animation: pulse-glow 2s infinite
+        }
+
+        .os-step.active .os-step-dot svg {
+            color: var(--bios-primary)
+        }
+
+        .os-step-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-align: center;
+            max-width: 80px;
+            font-weight: 500
+        }
+
+        .os-step.completed .os-step-label,
+        .os-step.active .os-step-label {
+            color: var(--text-primary)
+        }
+
+        .os-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-md);
+            margin-top: var(--space-lg)
+        }
+
+        .os-info-item {
+            background: var(--bg-glass);
+            border: 1px solid var(--bg-glass-border);
+            border-radius: var(--radius-md);
+            padding: var(--space-md)
+        }
+
+        .os-info-item label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: block;
+            margin-bottom: 0.25rem
+        }
+
+        .os-info-item span {
+            font-weight: 600;
+            font-size: 0.95rem
+        }
+
+        .os-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: var(--space-sm)
+        }
+
+        .os-status-badge.em-analise {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.3)
+        }
+
+        .os-status-badge.em-manutencao {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--info);
+            border: 1px solid rgba(59, 130, 246, 0.3)
+        }
+
+        .os-status-badge.pronto {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3)
+        }
+
+        .os-status-badge.aguardando {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3)
+        }
+
+        .chat-widget {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 999
+        }
+
+        .chat-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--bios-primary), var(--bios-secondary));
+            border: none;
+            color: var(--bg-deep);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0, 212, 170, 0.4);
+            transition: var(--transition-base);
+            position: relative
+        }
+
+        .chat-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(0, 212, 170, 0.5)
+        }
+
+        .chat-toggle svg {
+            width: 28px;
+            height: 28px
+        }
+
+        .chat-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 18px;
+            height: 18px;
+            background: var(--danger);
+            border-radius: 50%;
+            border: 2px solid var(--bg-deep);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 700
+        }
+
+        .chat-window {
+            position: absolute;
+            bottom: 76px;
+            right: 0;
+            width: 380px;
+            max-height: 520px;
+            background: var(--bg-card);
+            border: 1px solid var(--bg-glass-border);
+            border-radius: var(--radius-xl);
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            pointer-events: none;
+            transition: var(--transition-base)
+        }
+
+        .chat-window.open {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all
+        }
+
+        .chat-header {
+            padding: var(--space-md);
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(99, 102, 241, 0.1));
+            border-bottom: 1px solid var(--bg-glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .chat-header-info {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm)
+        }
+
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--bios-primary), var(--bios-secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--bg-deep);
+            font-size: 0.9rem
+        }
+
+        .chat-header-text h4 {
+            font-size: 0.95rem;
+            font-weight: 600
+        }
+
+        .chat-header-text span {
+            font-size: 0.75rem;
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            gap: 4px
+        }
+
+        .chat-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 4px;
+            transition: var(--transition-fast)
+        }
+
+        .chat-close:hover {
+            color: var(--text-primary)
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--space-md);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm)
+        }
+
+        .chat-message {
+            max-width: 80%;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            line-height: 1.5;
+            animation: fadeInUp 0.3s ease
+        }
+
+        .chat-message.bot {
+            background: var(--bg-glass);
+            border: 1px solid var(--bg-glass-border);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px
+        }
+
+        .chat-message.user {
+            background: linear-gradient(135deg, var(--bios-primary), var(--bios-primary-dark));
+            color: var(--bg-deep);
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+            font-weight: 500
+        }
+
+        .chat-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: var(--space-xs)
+        }
+
+        .chat-option {
+            background: rgba(0, 212, 170, 0.1);
+            border: 1px solid rgba(0, 212, 170, 0.2);
+            color: var(--bios-primary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            font-family: var(--font-sans)
+        }
+
+        .chat-option:hover {
+            background: rgba(0, 212, 170, 0.2)
+        }
+
+        .chat-input-area {
+            padding: var(--space-md);
+            border-top: 1px solid var(--bg-glass-border);
+            display: flex;
+            gap: var(--space-xs)
+        }
+
+        .chat-input {
+            flex: 1;
+            background: var(--bg-glass);
+            border: 1px solid var(--bg-glass-border);
+            border-radius: var(--radius-md);
+            padding: 0.6rem 1rem;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            outline: none
+        }
+
+        .chat-input:focus {
+            border-color: var(--bios-primary)
+        }
+
+        .chat-send {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            background: var(--bios-primary);
+            border: none;
+            color: var(--bg-deep);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast)
+        }
+
+        .chat-send:hover {
+            background: var(--bios-primary-dark)
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 0.5rem 1rem
+        }
+
+        .typing-indicator span {
+            width: 6px;
+            height: 6px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            animation: typing 1.4s infinite
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s
+        }
+
+        .footer {
+            background: var(--bg-deep);
+            border-top: 1px solid var(--bg-glass-border);
+            padding: var(--space-2xl) var(--space-lg) var(--space-lg)
+        }
+
+        .footer-grid {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: var(--space-2xl);
+            margin-bottom: var(--space-2xl)
+        }
+
+        .footer-brand p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: var(--space-sm);
+            line-height: 1.7
+        }
+
+        .footer-brand .logo {
+            margin-bottom: var(--space-sm)
+        }
+
+        .footer-links h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+            color: var(--text-primary)
+        }
+
+        .footer-links ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs)
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem
+        }
+
+        .footer-links a:hover {
+            color: var(--bios-primary)
+        }
+
+        .footer-bottom {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding-top: var(--space-lg);
+            border-top: 1px solid var(--bg-glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--space-sm)
+        }
+
+        .footer-bottom p {
+            color: var(--text-muted);
+            font-size: 0.8rem
+        }
+
+        .footer-social {
+            display: flex;
+            gap: var(--space-sm)
+        }
+
+        .footer-social a {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            border: 1px solid var(--bg-glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: var(--transition-fast)
+        }
+
+        .footer-social a:hover {
+            background: rgba(0, 212, 170, 0.1);
+            border-color: var(--bios-primary);
+            color: var(--bios-primary)
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-lg);
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition-base)
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border: 1px solid var(--bg-glass-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            transform: scale(0.9);
+            transition: var(--transition-base)
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1)
+        }
+
+        .modal-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto var(--space-md);
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.15), rgba(14, 165, 233, 0.15));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(0, 212, 170, 0.2)
+        }
+
+        .modal-icon svg {
+            width: 32px;
+            height: 32px;
+            color: var(--bios-primary)
+        }
+
+        .modal h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: var(--space-xs)
+        }
+
+        .modal p {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg)
+        }
+
+        @media(max-width:1024px) {
+
+            .hero-inner,
+            .remote-grid {
+                grid-template-columns: 1fr
+            }
+
+            .hero-visual {
+                order: -1
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr
+            }
+        }
+
+        @media(max-width:768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(10, 15, 26, 0.98);
+                flex-direction: column;
+                padding: var(--space-lg);
+                gap: var(--space-md);
+                border-bottom: 1px solid var(--bg-glass-border)
+            }
+
+            .nav-links.open {
+                display: flex
+            }
+
+            .mobile-menu-btn {
+                display: block
+            }
+
+            .hero {
+                padding-top: calc(70px + var(--space-xl))
+            }
+
+            .hero h1 {
+                font-size: 2.2rem
+            }
+
+            .booking-form {
+                grid-template-columns: 1fr
+            }
+
+            .service-options {
+                grid-template-columns: 1fr
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-xl)
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center
+            }
+
+            .chat-window {
+                width: calc(100vw - 48px);
+                max-height: 60vh
+            }
+
+            .track-form {
+                flex-direction: column
+            }
+
+            .os-info-grid {
+                grid-template-columns: 1fr
+            }
+
+            .os-timeline {
+                flex-wrap: wrap;
+                gap: var(--space-md)
+            }
+
+            .os-timeline::before,
+            .os-timeline-progress {
+                display: none
+            }
+        }
+        
+        /* WhatsApp Floating Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 60px;
+            height: 60px;
+            background-color: #25d366;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            z-index: 9999;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1) rotate(5deg);
+            background-color: #20ba5a;
+            box-shadow: 0 6px 24px rgba(37, 211, 102, 0.6);
+        }
+
+        .whatsapp-float svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        @media (max-width: 768px) {
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+            .whatsapp-float svg {
+                width: 26px;
+                height: 26px;
+            }
+        }
+    </style>
+    <base target="_blank">
+</head>
+
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-gradient"></div>
+
+    <nav class="navbar" id="navbar">
+        <div class="navbar-inner">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" />
+                        <line x1="8" y1="21" x2="16" y2="21" />
+                        <line x1="12" y1="17" x2="12" y2="21" />
+                        <path d="M6 8h.01M6 12h.01" />
+                    </svg>
+                </div>
+                <span class="logo-text">Bios <span>Informatica</span></span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#servicos">Servicos</a></li>
+                <li><a href="#remoto">Suporte Remoto</a></li>
+                <li><a href="#agendamento">Agendar</a></li>
+                <li><a href="#status">Acompanhar OS</a></li>
+                <li><a href="https://wa.me/5513996222130" class="nav-cta" target="_blank">Falar no WhatsApp</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-content">
+                <div class="hero-badge"><span class="dot"></span>Atendimento Online 24h</div>
+                <h1>Do <span class="highlight">Hardware</span> ao <span class="highlight">Digital</span></h1>
+                <p class="hero-subtitle">Manutenção especializada de computadores, notebooks e celulares em Guarujá e
+                    Santos. Criação de sites modernos e suporte remoto seguro para todo o Brasil.</p>
+                <div class="hero-buttons">
+                    <a href="#agendamento" class="btn btn-primary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" />
+                            <line x1="16" y1="2" x2="16" y2="6" />
+                            <line x1="8" y1="2" x2="8" y2="6" />
+                            <line x1="3" y1="10" x2="21" y2="10" />
+                        </svg>
+                        Agendar Atendimento
+                    </a>
+                    <a href="#status" class="btn btn-secondary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.35-4.35" />
+                        </svg>
+                        Consultar Status da OS
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-card">
+                    <div class="terminal-header">
+                        <span class="terminal-dot red"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot green"></span>
+                        <span class="terminal-title">bios@lab:~$</span>
+                        <span class="status-indicator status-online">Online</span>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="terminal-line"><span class="terminal-prompt">$</span><span
+                                class="terminal-text">diagnostico --iniciar</span></div>
+                        <div class="terminal-line"><span class="terminal-prompt">></span><span
+                                class="terminal-text">Verificando componentes...</span></div>
+                        <div class="terminal-line"><span class="terminal-prompt">></span><span
+                                class="terminal-text">CPU: OK | RAM: OK | SSD: OK</span></div>
+                        <div class="terminal-line"><span class="terminal-prompt">></span><span
+                                class="terminal-text">Temperatura: 42C (Normal)</span></div>
+                        <div class="terminal-line"><span class="terminal-prompt">></span><span
+                                class="terminal-text">Sistema otimizado com sucesso</span></div>
+                        <div class="terminal-line"><span class="terminal-prompt">$</span><span
+                                class="terminal-text">bios --status<span class="terminal-cursor"></span></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="track-section">
+        <div class="track-card animate-on-scroll">
+            <h3>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" style="color:var(--bios-primary)">
+                    <path
+                        d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                    <line x1="12" y1="22.08" x2="12" y2="12" />
+                </svg>
+                Ja e nosso cliente?
+            </h3>
+            <p style="color:var(--text-secondary);margin-bottom:var(--space-md);font-size:0.95rem">Digite o numero da
+                sua Ordem de Servico para acompanhar o status do seu reparo em tempo real.</p>
+            <div class="track-form">
+                <input type="text" class="track-input" id="trackInput" placeholder="Digite o numero da OS..."
+                    maxlength="10">
+                <button class="btn btn-primary" onclick="trackOS()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="m21 21-4.35-4.35" />
+                    </svg>
+                    Rastrear
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="servicos">
+        <div class="section-header animate-on-scroll">
+            <span class="section-label">Nossas Especialidades</span>
+            <h2 class="section-title">Solucoes Completas em Tecnologia</h2>
+            <p class="section-desc">Da manutencao do seu equipamento a presenca digital da sua empresa. Atendimento
+                local na Baixada Santista e remoto para todo o Brasil.</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card animate-on-scroll">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" />
+                        <line x1="8" y1="21" x2="16" y2="21" />
+                        <line x1="12" y1="17" x2="12" y2="21" />
+                        <path d="M6 8h.01" />
+                        <path d="M6 12h.01" />
+                    </svg>
+                </div>
+                <h3>Computadores e Notebooks</h3>
+                <p>Conserto de notebooks Dell, Acer, Lenovo, Samsung, Asus, HP e outras marcas. Formatacao com
+                    Windows/Linux original, backup completo e remocao de virus.</p>
+                <div class="service-tags">
+                    <span class="service-tag">Formatacao</span>
+                    <span class="service-tag">Troca de Tela</span>
+                    <span class="service-tag">Upgrade SSD</span>
+                    <span class="service-tag">Limpeza</span>
+                </div>
+            </div>
+            <div class="service-card animate-on-scroll">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                        <path d="M2 17l10 5 10-5" />
+                        <path d="M2 12l10 5 10-5" />
+                    </svg>
+                </div>
+                <h3>Universo PC Gamer</h3>
+                <p>Montagem de maquinas de alta performance sob encomenda. Upgrades estrategicos, troca de placa-mae,
+                    GPUs, fontes ATX e otimizacao avancada para maximo FPS.</p>
+                <div class="service-tags">
+                    <span class="service-tag">Montagem</span>
+                    <span class="service-tag">GPU</span>
+                    <span class="service-tag">Water Cooler</span>
+                    <span class="service-tag">FPS Boost</span>
+                </div>
+            </div>
+            <div class="service-card animate-on-scroll">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                        <line x1="12" y1="18" x2="12.01" y2="18" />
+                    </svg>
+                </div>
+                <h3>Celulares e Tablets</h3>
+                <p>Troca rapida de telas, touchscreens e baterias. Reparo de conectores de carga, diagnostico de placas,
+                    remocao de malwares e recuperacao de dados.</p>
+                <div class="service-tags">
+                    <span class="service-tag">Troca de Tela</span>
+                    <span class="service-tag">Bateria</span>
+                    <span class="service-tag">Conector</span>
+                    <span class="service-tag">Backup</span>
+                </div>
+            </div>
+            <div class="service-card animate-on-scroll">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M12 19l7-7 3 3-7 7-3-3z" />
+                        <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+                        <path d="M2 2l7.586 7.586" />
+                        <circle cx="11" cy="11" r="2" />
+                    </svg>
+                </div>
+                <h3>Criação de Sites e SEO</h3>
+                <p>Sites institucionais, landing pages de alta conversão e e-commerces. SEO local focado em Guarujá e
+                    Santos. Configuração do Google Meu Negócio.</p>
+                <div class="service-tags">
+                    <span class="service-tag">Landing Page</span>
+                    <span class="service-tag">E-commerce</span>
+                    <span class="service-tag">SEO Local</span>
+                    <span class="service-tag">Google Ads</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="remote-section" id="remoto">
+        <div class="section" style="padding-bottom:var(--space-2xl)">
+            <div class="remote-grid">
+                <div class="remote-content animate-on-scroll">
+                    <span class="section-label">Suporte Remoto Nacional</span>
+                    <h2>Resolva Sem Sair de Casa</h2>
+                    <p>Problemas com virus, lentidao, configuracao de impressora ou programas que nao abrem? Resolvemos
+                        agora mesmo, direto da sua tela e com total seguranca.</p>
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-text">
+                                <h4>Agende pelo Site</h4>
+                                <p>Escolha o melhor horario e tipo de atendimento no nosso calendario.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-text">
+                                <h4>Acesso Seguro</h4>
+                                <p>Baixe o AnyDesk ou RustDesk. Conexao criptografada e monitorada.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-text">
+                                <h4>Resolvido na Hora</h4>
+                                <p>Nosso tecnico resolve virus, lentidao ou configuracao direto na sua tela.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#agendamento" class="btn btn-primary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" />
+                            <line x1="16" y1="2" x2="16" y2="6" />
+                            <line x1="8" y1="2" x2="8" y2="6" />
+                            <line x1="3" y1="10" x2="21" y2="10" />
+                        </svg>
+                        Agendar Suporte Remoto
+                    </a>
+                </div>
+                <div class="remote-visual animate-on-scroll">
+                    <div class="remote-visual-inner">
+                        <div class="remote-screen">
+                            <div class="remote-screen-header">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" style="color:var(--bios-primary)">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" />
+                                    <line x1="8" y1="21" x2="16" y2="21" />
+                                    <line x1="12" y1="17" x2="12" y2="21" />
+                                </svg>
+                                <span style="font-size:0.7rem;color:var(--text-muted)">bios-remote-session.exe</span>
+                                <span style="margin-left:auto;font-size:0.65rem;color:var(--success)">Conectado</span>
+                            </div>
+                            <div style="margin-bottom:var(--space-sm)">
+                                <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:4px">Otimizacao do
+                                    Sistema</div>
+                                <div class="remote-bar fill" style="width:85%"></div>
+                                <div style="font-size:0.65rem;color:var(--bios-primary);margin-top:2px">85% - Removendo
+                                    malwares...</div>
+                            </div>
+                            <div style="margin-bottom:var(--space-sm)">
+                                <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:4px">Limpeza de Disco
+                                </div>
+                                <div class="remote-bar fill" style="width:60%;animation-delay:0.5s"></div>
+                                <div style="font-size:0.65rem;color:var(--bios-primary);margin-top:2px">60% - Analisando
+                                    arquivos temporarios...</div>
+                            </div>
+                            <div>
+                                <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:4px">Atualizacao de
+                                    Drivers</div>
+                                <div class="remote-bar" style="width:100%"></div>
+                                <div style="font-size:0.65rem;color:var(--success);margin-top:2px">100% - Concluido
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-header animate-on-scroll">
+            <span class="section-label">Por que Escolher a Bios</span>
+            <h2 class="section-title">Diferenciais que Fazem a Diferenca</h2>
+        </div>
+        <div class="features-grid">
+            <div class="feature-item animate-on-scroll">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path
+                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                        <line x1="12" y1="22.08" x2="12" y2="12" />
+                    </svg>
+                </div>
+                <h3>Leva e Traz</h3>
+                <p>Coleta e entrega programada do seu equipamento em domicílio em Guarujá e Santos.</p>
+            </div>
+            <div class="feature-item animate-on-scroll">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                        <polyline points="10 9 9 9 8 9" />
+                    </svg>
+                </div>
+                <h3>Orcamento Sem Compromisso</h3>
+                <p>Diagnostico honesto e transparente. Voce so aprova o que for necessario.</p>
+            </div>
+            <div class="feature-item animate-on-scroll">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                </div>
+                <h3>Garantia Total</h3>
+                <p>Pecas e servicos com cobertura completa e nota fiscal. Sua seguranca em primeiro lugar.</p>
+            </div>
+            <div class="feature-item animate-on-scroll">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                </div>
+                <h3>Rapidez</h3>
+                <p>Orcamento em ate 24h. Manutencoes simples prontas no mesmo dia, quando possivel.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="booking-section" id="agendamento">
+        <div class="section">
+            <div class="section-header animate-on-scroll">
+                <span class="section-label">Agendamento Online</span>
+                <h2 class="section-title">Agende Seu Atendimento</h2>
+                <p class="section-desc">Escolha o serviço, dia e horário. Sem ligações, sem filas. Atendimento
+                    presencial em Guarujá/Santos ou remoto para todo o Brasil.</p>
+            </div>
+            <div class="booking-container animate-on-scroll">
+                <div class="booking-card">
+                    <form class="booking-form" id="bookingForm" onsubmit="submitBooking(event)">
+                        <div class="form-group">
+                            <label for="bookingName">Nome Completo</label>
+                            <input type="text" id="bookingName" placeholder="Seu nome completo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bookingPhone">Telefone / WhatsApp</label>
+                            <input type="tel" id="bookingPhone" placeholder="(13) 99999-9999" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bookingEmail">E-mail</label>
+                            <input type="email" id="bookingEmail" placeholder="seu@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="bookingType">Tipo de Atendimento</label>
+                            <select id="bookingType" required>
+                                <option value="">Selecione...</option>
+                                <option value="presencial">Presencial (Guarujá / Santos)</option>
+                                <option value="remoto">Suporte Remoto (Todo Brasil)</option>
+                                <option value="coleta">Coleta em Domicilio</option>
+                            </select>
+                        </div>
+                        <div class="form-group full">
+                            <label>Servico Desejado</label>
+                            <div class="service-options">
+                                <label class="service-option">
+                                    <input type="checkbox" name="service" value="notebook"
+                                        onchange="toggleService(this)">
+                                    <span>Notebook / PC</span>
+                                </label>
+                                <label class="service-option">
+                                    <input type="checkbox" name="service" value="gamer" onchange="toggleService(this)">
+                                    <span>PC Gamer</span>
+                                </label>
+                                <label class="service-option">
+                                    <input type="checkbox" name="service" value="celular"
+                                        onchange="toggleService(this)">
+                                    <span>Celular / Tablet</span>
+                                </label>
+                                <label class="service-option">
+                                    <input type="checkbox" name="service" value="site" onchange="toggleService(this)">
+                                    <span>Criacao de Site</span>
+                                </label>
+                                <label class="service-option">
+                                    <input type="checkbox" name="service" value="remoto" onchange="toggleService(this)">
+                                    <span>Suporte Remoto</span>
+                                </label>
+                                <label class="service-option">
+                                    <input type="checkbox" name="service" value="outro" onchange="toggleService(this)">
+                                    <span>Outro</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Data</label>
+                            <div class="calendar-header">
+                                <button type="button" class="calendar-nav" onclick="changeMonth(-1)">&lt;</button>
+                                <span id="calendarMonth" style="font-weight:600;font-size:0.9rem"></span>
+                                <button type="button" class="calendar-nav" onclick="changeMonth(1)">&gt;</button>
+                            </div>
+                            <div class="calendar-weekdays">
+                                <div class="calendar-weekday">Dom</div>
+                                <div class="calendar-weekday">Seg</div>
+                                <div class="calendar-weekday">Ter</div>
+                                <div class="calendar-weekday">Qua</div>
+                                <div class="calendar-weekday">Qui</div>
+                                <div class="calendar-weekday">Sex</div>
+                                <div class="calendar-weekday">Sab</div>
+                            </div>
+                            <div class="calendar-grid" id="calendarGrid"></div>
+                            <input type="hidden" id="selectedDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Horario</label>
+                            <div class="time-slots" id="timeSlots"></div>
+                            <input type="hidden" id="selectedTime">
+                        </div>
+                        <div class="form-group full">
+                            <label for="bookingObs">Observacoes (opcional)</label>
+                            <textarea id="bookingObs" placeholder="Descreva o problema ou necessidade..."></textarea>
+                        </div>
+                        <div class="form-group full" style="margin-top:var(--space-sm)">
+                            <button type="submit" class="btn btn-primary"
+                                style="width:100%;justify-content:center;padding:1rem">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                                    <line x1="16" y1="2" x2="16" y2="6" />
+                                    <line x1="8" y1="2" x2="8" y2="6" />
+                                    <line x1="3" y1="10" x2="21" y2="10" />
+                                </svg>
+                                Confirmar Agendamento
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="status">
+        <div class="section-header animate-on-scroll">
+            <span class="section-label">Acompanhamento</span>
+            <h2 class="section-title">Painel de Status da OS</h2>
+            <p class="section-desc">Acompanhe em tempo real cada etapa do reparo do seu equipamento. Transparencia total
+                do inicio ao fim.</p>
+        </div>
+        <div class="os-panel animate-on-scroll">
+            <div class="os-search">
+                <input type="text" class="track-input" id="osPanelInput" placeholder="Digite o numero da OS ou CPF..."
+                    maxlength="15">
+                <button class="btn btn-primary" onclick="searchOS()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="m21 21-4.35-4.35" />
+                    </svg>
+                    Consultar
+                </button>
+            </div>
+            <div class="os-result" id="osResult">
+                <div style="text-align:center;margin-bottom:var(--space-lg)">
+                    <h3 style="font-size:1.2rem;margin-bottom:var(--space-xs)">Ordem de Servico <span id="osNumber"
+                            style="color:var(--bios-primary)"></span></h3>
+                    <div class="os-status-badge" id="osStatusBadge">Em Analise</div>
+                </div>
+                <div class="os-timeline" id="osTimeline">
+                    <div class="os-timeline-progress" id="osProgress" style="width:0%"></div>
+                    <div class="os-step" data-step="1">
+                        <div class="os-step-dot">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                        </div>
+                        <span class="os-step-label">Recebido</span>
+                    </div>
+                    <div class="os-step" data-step="2">
+                        <div class="os-step-dot">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8" />
+                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                            </svg>
+                        </div>
+                        <span class="os-step-label">Em Analise</span>
+                    </div>
+                    <div class="os-step" data-step="3">
+                        <div class="os-step-dot">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                                <line x1="1" y1="10" x2="23" y2="10" />
+                            </svg>
+                        </div>
+                        <span class="os-step-label">Aguardando Peca</span>
+                    </div>
+                    <div class="os-step" data-step="4">
+                        <div class="os-step-dot">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                            </svg>
+                        </div>
+                        <span class="os-step-label">Em Manutencao</span>
+                    </div>
+                    <div class="os-step" data-step="5">
+                        <div class="os-step-dot">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                <polyline points="22 4 12 14.01 9 11.01" />
+                            </svg>
+                        </div>
+                        <span class="os-step-label">Pronto</span>
+                    </div>
+                </div>
+                <div class="os-info-grid">
+                    <div class="os-info-item">
+                        <label>Equipamento</label>
+                        <span id="osDevice">Notebook Dell Inspiron</span>
+                    </div>
+                    <div class="os-info-item">
+                        <label>Cliente</label>
+                        <span id="osClient">Joao Silva</span>
+                    </div>
+                    <div class="os-info-item">
+                        <label>Data de Entrada</label>
+                        <span id="osDate">10/08/2026</span>
+                    </div>
+                    <div class="os-info-item">
+                        <label>Previsao</label>
+                        <span id="osEstimate">15/08/2026</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" />
+                            <line x1="8" y1="21" x2="16" y2="21" />
+                            <line x1="12" y1="17" x2="12" y2="21" />
+                            <path d="M6 8h.01M6 12h.01" />
+                        </svg>
+                    </div>
+                    <span class="logo-text">Bios <span>Informatica</span></span>
+                </a>
+                <p>Solucoes em tecnologia do hardware ao digital. Manutencao especializada, criacao de sites e suporte
+                    remoto com atendimento humano e transparente.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Servicos</h4>
+                <ul>
+                    <li><a href="#servicos">Notebooks e PCs</a></li>
+                    <li><a href="#servicos">PC Gamer</a></li>
+                    <li><a href="#servicos">Celulares</a></li>
+                    <li><a href="#servicos">Criacao de Sites</a></li>
+                    <li><a href="#remoto">Suporte Remoto</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Empresa</h4>
+                <ul>
+                    <li><a href="#">Sobre Nos</a></li>
+                    <li><a href="#agendamento">Agendamento</a></li>
+                    <li><a href="#status">Acompanhar OS</a></li>
+                    <li><a href="#">Politica de Privacidade</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contato</h4>
+                <ul>
+                    <li><a href="https://wa.me/5513996222130" target="_blank">WhatsApp</a></li>
+                    <li><a href="mailto:contato@biosinformatica.com.br">contato@biosinformatica.com.br</a></li>
+                    <li><a href="#">Rua Alameda Deus Me Deu - Guarujá/Santos - SP</a></li>
+                    <li><a href="#">Atendimento remoto: Todo Brasil</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>
+                Bios Informatica 2026. Todos os direitos reservados.
+                <span onclick="window.location.href='/bios_os_manager.html'" style="cursor: pointer; opacity: 0.15; transition: opacity 0.3s; margin-left: 5px;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='0.15'">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align: middle;">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                </span>
+            </p>
+            <div class="footer-social">
+                <a href="#" aria-label="Instagram">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                    </svg>
+                </a>
+                <a href="#" aria-label="Facebook">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                    </svg>
+                </a>
+                <a href="#" aria-label="LinkedIn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                        <rect x="2" y="9" width="4" height="12" />
+                        <circle cx="4" cy="4" r="2" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <div class="chat-widget">
+        <button class="chat-toggle" id="chatToggle" onclick="toggleChat()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+            <span class="chat-badge">1</span>
+        </button>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="chat-avatar">BI</div>
+                    <div class="chat-header-text">
+                        <h4>Bios Informatica</h4>
+                        <span>
+                            <svg width="8" height="8" viewBox="0 0 24 24" fill="var(--success)">
+                                <circle cx="12" cy="12" r="10" />
+                            </svg>
+                            Online agora
+                        </span>
+                    </div>
+                </div>
+                <button class="chat-close" onclick="toggleChat()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="chat-message bot">
+                    Ola! Bem-vindo a Bios Informatica. Como posso ajudar voce hoje?
+                    <div class="chat-options">
+                        <button class="chat-option" onclick="sendOption('Suporte Remoto')">Suporte Remoto</button>
+                        <button class="chat-option" onclick="sendOption('Orcamento')">Orcamento</button>
+                        <button class="chat-option" onclick="sendOption('PC Gamer')">PC Gamer</button>
+                        <button class="chat-option" onclick="sendOption('Criacao de Site')">Criacao de Site</button>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Digite sua mensagem..."
+                    onkeypress="if(event.key==='Enter')sendMessage()">
+                <button class="chat-send" onclick="sendMessage()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13" />
+                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal">
+            <div class="modal-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+            </div>
+            <h3 id="modalTitle">Sucesso!</h3>
+            <p id="modalText">Sua acao foi realizada com sucesso.</p>
+            <button class="btn btn-primary" onclick="closeModalDirect()" style="min-width:120px">OK</button>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // NAVBAR SCROLL
+        // ============================================
+        window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50) });
+
+        // ============================================
+        // MOBILE MENU
+        // ============================================
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => { document.getElementById('navLinks').classList.toggle('open') });
+
+        // ============================================
+        // SCROLL ANIMATIONS
+        // ============================================
+        const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible') } }) }, { threshold: 0.1 });
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+        // ============================================
+        // CALENDAR
+        // ============================================
+        let currentDate = new Date();
+        let selectedDate = null;
+        const monthNames = ['Janeiro', 'Fevereiro', 'Marco', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+
+        function renderCalendar() {
+            const grid = document.getElementById('calendarGrid');
+            const monthLabel = document.getElementById('calendarMonth');
+            grid.innerHTML = '';
+            monthLabel.textContent = monthNames[currentDate.getMonth()] + ' ' + currentDate.getFullYear();
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const today = new Date();
+            for (let i = 0; i < firstDay; i++) { const empty = document.createElement('div'); grid.appendChild(empty) }
+            for (let day = 1; day <= daysInMonth; day++) {
+                const cell = document.createElement('div');
+                cell.className = 'calendar-day';
+                cell.textContent = day;
+                const cellDate = new Date(year, month, day);
+                if (cellDate < new Date(today.getFullYear(), today.getMonth(), today.getDate())) { cell.classList.add('disabled') }
+                if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) { cell.classList.add('today') }
+                if (selectedDate && day === selectedDate.getDate() && month === selectedDate.getMonth() && year === selectedDate.getFullYear()) { cell.classList.add('selected') }
+                cell.onclick = () => { if (!cell.classList.contains('disabled')) { document.querySelectorAll('.calendar-day.selected').forEach(d => d.classList.remove('selected')); cell.classList.add('selected'); selectedDate = new Date(year, month, day); document.getElementById('selectedDate').value = selectedDate.toISOString().split('T')[0] } };
+                grid.appendChild(cell);
+            }
+        }
+        function changeMonth(dir) { currentDate.setMonth(currentDate.getMonth() + dir); renderCalendar() }
+        renderCalendar();
+
+        // ============================================
+        // TIME SLOTS (Dynamic 24 Hours)
+        // ============================================
+        function renderTimeSlots() {
+            const container = document.getElementById('timeSlots');
+            container.innerHTML = '';
+            for (let h = 0; h < 24; h++) {
+                const timeStr = String(h).padStart(2, '0') + ':00';
+                const slot = document.createElement('div');
+                slot.className = 'time-slot';
+                slot.textContent = timeStr;
+                slot.onclick = () => selectTime(slot);
+                container.appendChild(slot);
+            }
+        }
+        renderTimeSlots();
+
+        function selectTime(el) { document.querySelectorAll('.time-slot.selected').forEach(s => s.classList.remove('selected')); el.classList.add('selected'); document.getElementById('selectedTime').value = el.textContent }
+
+        // ============================================
+        // SERVICE OPTIONS
+        // ============================================
+        function toggleService(checkbox) { checkbox.parentElement.classList.toggle('selected', checkbox.checked) }
+
+        // ============================================
+        // BOOKING SUBMIT
+        // ============================================
+        function submitBooking(e) {
+            e.preventDefault();
+            const name = document.getElementById('bookingName').value;
+            const phone = document.getElementById('bookingPhone').value;
+            const type = document.getElementById('bookingType').value;
+            const date = document.getElementById('selectedDate').value;
+            const time = document.getElementById('selectedTime').value;
+            if (!date) { showModal('Data necessaria', 'Por favor, selecione uma data no calendario.'); return }
+            if (!time) { showModal('Horario necessario', 'Por favor, selecione um horario disponivel.'); return }
+            const services = Array.from(document.querySelectorAll('input[name="service"]:checked')).map(cb => cb.value).join(', ');
+            if (!services) { showModal('Servico necessario', 'Por favor, selecione pelo menos um servico.'); return }
+            
+            const booking = { name, phone, type, date, time, services, obs: document.getElementById('bookingObs').value };
+            
+            fetch('/api/bookings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(booking)
+            })
+            .then(res => {
+                if (!res.ok) throw new Error('Falha no agendamento.');
+                return res.json();
+            })
+            .then(data => {
+                showModal('Agendamento Confirmado!', 'Obrigado, ' + data.name + '! Seu agendamento para ' + data.date + ' às ' + data.time + ' foi registrado com a OS ' + data.os + '. Guarde este código para rastreamento.');
+                document.getElementById('bookingForm').reset();
+                document.querySelectorAll('.calendar-day.selected,.time-slot.selected,.service-option.selected').forEach(el => el.classList.remove('selected'));
+                selectedDate = null;
+            })
+            .catch(err => {
+                showModal('Erro no Agendamento', 'Não foi possível registrar seu agendamento no momento. Tente novamente ou nos chame no WhatsApp.');
+                console.error(err);
+            });
+        }
+
+        // ============================================
+        // OS TRACKING
+        // ============================================
+        function trackOS() { const num = document.getElementById('trackInput').value.trim().toUpperCase(); if (!num) { showModal('Numero necessario', 'Digite o numero da OS para rastrear.'); return } searchOSData(num) }
+        function searchOS() { const num = document.getElementById('osPanelInput').value.trim().toUpperCase(); if (!num) { showModal('Numero necessario', 'Digite o numero da OS ou CPF para consultar.'); return } searchOSData(num) }
+
+        function searchOSData(num) {
+            fetch('/api/os/' + encodeURIComponent(num))
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('OS não encontrada');
+                }
+                return res.json();
+            })
+            .then(data => {
+                document.getElementById('osNumber').textContent = num;
+                document.getElementById('osClient').textContent = data.client;
+                document.getElementById('osDevice').textContent = data.device;
+                document.getElementById('osDate').textContent = data.date;
+                document.getElementById('osEstimate').textContent = data.estimate;
+                
+                const badge = document.getElementById('osStatusBadge');
+                badge.className = 'os-status-badge ' + data.status;
+                
+                const statusLabels = {
+                    'recebido': 'Equipamento Recebido',
+                    'em-analise': 'Em Análise',
+                    'aguardando': 'Aguardando Peça',
+                    'em-manutencao': 'Em Manutenção',
+                    'pronto': 'Pronto para Retirada'
+                };
+                badge.textContent = statusLabels[data.status] || 'Em Análise';
+                
+                const steps = document.querySelectorAll('.os-step');
+                steps.forEach((step, idx) => {
+                    step.classList.remove('completed', 'active');
+                    if (idx + 1 < data.step) {
+                        step.classList.add('completed');
+                    } else if (idx + 1 === data.step) {
+                        step.classList.add('active');
+                    }
+                });
+                
+                const progress = ((data.step - 1) / (steps.length - 1)) * 100;
+                document.getElementById('osProgress').style.width = progress + '%';
+                document.getElementById('osResult').classList.add('active');
+            })
+            .catch(err => {
+                showModal('OS não encontrada', 'Verifique o número e tente novamente. Exemplos válidos: OS001, OS002, OS003, OS004 ou o telefone cadastrado.');
+                console.error(err);
+            });
+        }
+
+        // ============================================
+        // CHAT
+        // ============================================
+        let chatOpen = false;
+        function toggleChat() { chatOpen = !chatOpen; document.getElementById('chatWindow').classList.toggle('open', chatOpen); if (chatOpen) document.getElementById('chatBadge').style.display = 'none' }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+            addMessage(text, 'user');
+            input.value = '';
+            showTyping();
+            setTimeout(() => { hideTyping(); botReply(text) }, 1500);
+        }
+
+        function sendOption(text) { addMessage(text, 'user'); showTyping(); setTimeout(() => { hideTyping(); botReply(text) }, 1000) }
+
+        function addMessage(text, type) {
+            const container = document.getElementById('chatMessages');
+            const msg = document.createElement('div');
+            msg.className = 'chat-message ' + type;
+            msg.textContent = text;
+            container.appendChild(msg);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function showTyping() {
+            const container = document.getElementById('chatMessages');
+            const typing = document.createElement('div');
+            typing.className = 'chat-message bot typing-indicator';
+            typing.id = 'typingIndicator';
+            typing.innerHTML = '<span></span><span></span><span></span>';
+            container.appendChild(typing);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function hideTyping() { const t = document.getElementById('typingIndicator'); if (t) t.remove() }
+
+        function botReply(userText) {
+            const lower = userText.toLowerCase();
+            let reply = '';
+            let options = [];
+            if (lower.includes('remoto') || lower.includes('acesso') || lower.includes('virus') || lower.includes('lentidao')) {
+                reply = 'Nosso suporte remoto resolve virus, lentidao e configuracoes direto na sua tela. Usamos AnyDesk ou RustDesk com conexao criptografada. Deseja agendar?';
+                options = ['Agendar Remoto', 'Mais informacoes', 'Voltar'];
+            } else if (lower.includes('orcamento') || lower.includes('preco') || lower.includes('valor')) {
+                reply = 'O orcamento e sem compromisso! O diagnostico e gratuito. O valor depende do servico. Notebooks a partir de R$80, celulares a partir de R$120. Quer agendar uma avaliacao?';
+                options = ['Agendar Avaliacao', 'Tabela de Precos', 'Voltar'];
+            } else if (lower.includes('gamer') || lower.includes('placa') || lower.includes('gpu') || lower.includes('fps')) {
+                reply = 'Montamos PCs gamers sob encomenda com as melhores pecas. Tambem fazemos upgrades de GPU, RAM, SSD e water cooler. Qual sua necessidade?';
+                options = ['Montar PC Novo', 'Upgrade', 'Orcamento Gamer', 'Voltar'];
+            } else if (lower.includes('site') || lower.includes('landing') || lower.includes('seo') || lower.includes('google')) {
+                reply = 'Criamos sites institucionais, landing pages e e-commerces otimizados para SEO local em Guarujá e Santos. Incluímos configuração do Google Meu Negócio.';
+                options = ['Quero um Site', 'Landing Page', 'E-commerce', 'Voltar'];
+            } else if (lower.includes('agendar') || lower.includes('horario') || lower.includes('marcar')) {
+                reply = 'Perfeito! Voce pode agendar direto pelo nosso calendario no site. Escolha o dia, horario e tipo de atendimento. E rapido e pratico!';
+                options = ['Ir para Agendamento', 'Falar no WhatsApp', 'Voltar'];
+            } else if (lower.includes('notebook') || lower.includes('computador') || lower.includes('pc')) {
+                reply = 'Fazemos formatacao, troca de tela, upgrade de SSD/RAM, limpeza interna e troca de pasta termica. Qual o problema do seu equipamento?';
+                options = ['Formatacao', 'Troca de Tela', 'Upgrade', 'Voltar'];
+            } else if (lower.includes('celular') || lower.includes('iphone') || lower.includes('samsung') || lower.includes('tela')) {
+                reply('Trocamos telas, baterias e conectores de carga. Tambem fazemos recuperacao de dados e reparo de placa. Qual modelo do seu aparelho?');
+                options = ['Troca de Tela', 'Bateria', 'Recuperacao', 'Voltar'];
+            } else {
+                reply = 'Entendi! Para melhor atende-lo, posso encaminhar voce para:';
+                options = ['Suporte Remoto', 'Orcamento', 'Agendamento', 'Falar no WhatsApp'];
+            }
+            const container = document.getElementById('chatMessages');
+            const msg = document.createElement('div');
+            msg.className = 'chat-message bot';
+            msg.textContent = reply;
+            if (options.length > 0) {
+                const opts = document.createElement('div');
+                opts.className = 'chat-options';
+                options.forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.className = 'chat-option';
+                    btn.textContent = opt;
+                    btn.onclick = () => sendOption(opt);
+                    opts.appendChild(btn);
+                });
+                msg.appendChild(opts);
+            }
+            container.appendChild(msg);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // ============================================
+        // MODAL
+        // ============================================
+        function showModal(title, text) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalText').textContent = text;
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+        function closeModal(e) { if (e.target === e.currentTarget) document.getElementById('modalOverlay').classList.remove('active') }
+        function closeModalDirect() { document.getElementById('modalOverlay').classList.remove('active') }
+
+        // ============================================
+        // SMOOTH SCROLL
+        // ============================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); document.getElementById('navLinks').classList.remove('open') }
+            });
+        });
+    </script>
+    
+    <!-- Botão Flutuante do WhatsApp -->
+    <a href="https://wa.me/5513996222130" class="whatsapp-float" target="_blank" aria-label="Falar no WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.47l-6.256 1.648zM12 2.182c-5.41 0-9.811 4.4-9.815 9.813a9.752 9.752 0 001.458 5.092l.099.157-1.002 3.658 3.744-.982.153.091c1.5.892 3.21 1.363 4.961 1.364 5.412 0 9.815-4.401 9.82-9.813a9.782 9.782 0 00-2.876-6.938A9.782 9.782 0 0012 2.182zm4.843 11.705c-.265-.133-1.57-.775-1.812-.862-.243-.087-.42-.132-.596.132-.177.265-.685.862-.839 1.039-.154.177-.308.2-.573.067-.265-.133-1.122-.413-2.138-1.32-.79-.705-1.324-1.576-1.48-1.842-.154-.265-.016-.409.117-.541.12-.12.265-.309.397-.464.133-.155.177-.265.265-.443.088-.177.044-.332-.022-.464-.066-.133-.596-1.437-.816-1.968-.215-.518-.452-.447-.62-.447-.16-.008-.344-.01-.528-.01-.184 0-.485.07-.739.344-.254.277-.97.948-.97 2.31 0 1.363.99 2.68 1.122 2.857.133.177 1.95 2.977 4.723 4.172.659.284 1.174.454 1.576.581.662.21 1.265.18 1.742.109.531-.08 1.57-.642 1.79-1.26.22-.617.22-1.147.155-1.26-.066-.111-.243-.177-.508-.31z"/>
+        </svg>
+    </a>
+</body>
+
+</html>

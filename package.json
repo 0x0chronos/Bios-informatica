@@ -1,0 +1,13 @@
+{
+  "name": "bios-informatica",
+  "version": "1.0.0",
+  "description": "Website e painel administrativo da Bios Informática com banco de dados SQLite",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "sqlite3": "^5.1.7"
+  }
+}
