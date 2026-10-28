@@ -26,3 +26,15 @@ Coleta de verificação sem escrita: `python scripts/crawler_fornecedores.py --a
 Usar o mesmo banco PostgreSQL do site. Configurar a conexão no secret `DATABASE_URL` do GitHub Actions; a configuração da Hostinger já contém essa variável, mas seu valor não pode ser lido pela API de hospedagem. Não incluir `.env`, bancos, backups ou credenciais no pacote de publicação.
 
 Confirmar o domínio antes da primeira publicação e validar o aplicativo localmente antes de substituí-lo. Não substituir o conjunto de variáveis de ambiente da Hostinger por valores mascarados.
+
+## Ambiente de coleta
+
+Os testes no Actions confirmaram que a KaBuM responde no runner hospedado pelo GitHub. Pichau e Terabyte recusaram o acesso nesse ambiente (HTTP 403 e 307), mesmo com a configuração original do navegador. No computador local, foram coletadas páginas das três lojas; a paginação da Pichau também foi validada.
+
+Para usar um servidor próprio, instalar um runner do GitHub Actions no servidor e definir a variável de repositório `CATALOG_RUNNER` com o rótulo desse runner, por exemplo `self-hosted`. O agendamento permanece no GitHub, mas a coleta usa a rede do servidor escolhido. O servidor precisa estar ligado nos horários previstos e ter Python 3.11 e os requisitos do Chromium. Não deixar a coleta dependente de um computador desligado.
+
+Validação na nova rede: executar manualmente o workflow com `dry_run=true`, `category=Processador` e `pages=1`. Só considerar a integração operacional após obter produtos das três lojas nesse ambiente e validar a gravação no mesmo banco do site. O primeiro teste é limitado a uma página e não comprova cobertura de todo o catálogo.
+
+## Estado da publicação
+
+Interface e API publicadas em `biosinformatica.store`, com leitura do banco existente confirmada. Os testes locais cobrem extração, paginação, transações, preços de venda, ofertas desatualizadas e inclusão no orçamento. A carga automática depende do secret de conexão e de um ambiente de coleta aceito pelas três lojas.

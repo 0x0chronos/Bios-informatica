@@ -29,7 +29,7 @@ concurrency:
 jobs:
   crawler-sync:
     name: Coletar ${{ matrix.store }}
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.CATALOG_RUNNER || 'ubuntu-latest' }}
     timeout-minutes: 180
     strategy:
       fail-fast: false
