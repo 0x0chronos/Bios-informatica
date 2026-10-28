@@ -309,6 +309,34 @@ app.post('/api/proposta/:token/approve',trackingLimiter,asyncRoute(async(req,res
  }));
  res.json(result);
 }));
+
+// API Pública de Consulta do Catálogo (Não expõe custos nem links de compra)
+app.get('/api/catalog', trackingLimiter, asyncRoute(async(req, res) => {
+ const q = text(req.query.q || '', 100).toLowerCase();
+ const category = text(req.query.category || '', 60);
+ const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 30, 1), 100);
+ 
+ let sql = 'SELECT id, category, brand, model, sku, specs, price, status, "imageUrl" FROM parts WHERE active=1 AND status=\'em_estoque\'';
+ const params = [];
+ if (category) {
+  sql += ' AND category = ?';
+  params.push(category);
+ }
+ if (q) {
+  sql += ' AND (LOWER(model) LIKE ? OR LOWER(brand) LIKE ? OR LOWER(sku) LIKE ? OR LOWER(category) LIKE ?)';
+  const term = `%${q}%`;
+  params.push(term, term, term, term);
+ }
+ sql += ' ORDER BY category ASC, brand ASC, model ASC LIMIT ?';
+ params.push(limit);
+ 
+ const items = await store.all(sql, params);
+ res.json({
+  total: items.length,
+  items
+ });
+}));
+
 app.use(['/api/clients','/api/services','/api/orders','/api/parts','/api/quotes','/api/company-settings'],authenticate);
 app.get('/api/clients',asyncRoute(async(req,res)=>res.json(await store.all('SELECT * FROM clients ORDER BY name'))));
 function clientInput(b){const name=text(b.name,100),phone=text(b.phone,25);if(!name||phone.replace(/\D/g,'').length<10)fail('Informe nome e telefone com DDD.');return [name,phone,text(b.email,150),text(b.doc,30),text(b.city,100),text(b.neighborhood,100),text(b.address,300),text(b.obs,2000)];}
