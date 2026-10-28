@@ -926,9 +926,9 @@
               <span class="badge" style="background:rgba(0,255,136,0.12);color:#00ff88;border:1px solid rgba(0,255,136,0.3)">
                 🌐 Descoberta Externa
               </span>
-              <h3 style="margin:0;font-size:1.05rem;color:var(--text)">Buscar nas Lojas (KaBuM!, Pichau e Terabyte)</h3>
+              <h3 style="margin:0;font-size:1.05rem;color:var(--text)">Catálogo KaBuM!, Pichau e Terabyte</h3>
             </div>
-            <span style="font-size:0.78rem;color:var(--muted)">Disparada exclusivamente por botão ou Enter</span>
+            <span style="font-size:0.78rem;color:var(--muted)">Coleta prevista para 00h e 12h · confira a data de cada oferta</span>
           </div>
           <div class="card-body" style="padding:var(--space-md)">
             <p style="font-size:0.85rem;color:var(--muted);margin-bottom:14px">
@@ -948,7 +948,7 @@
               </div>
               <button class="btn btn-primary" id="btnSearchStores" onclick="searchStores()">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                Buscar nas Lojas
+                Buscar no catálogo
               </button>
             </div>
 
@@ -960,7 +960,7 @@
                 </div>
                 <div style="display:flex;gap:10px;align-items:center">
                   <button class="btn btn-primary btn-sm" id="btnImportBatch" onclick="importSelectedSearchResults()" style="display:none">
-                    📥 Importar Selecionados (<span id="selectedCountDisplay">0</span>)
+                    Adicionar ao orçamento (<span id="selectedCountDisplay">0</span>)
                   </button>
                   <button class="btn btn-ghost btn-sm" onclick="clearSearchResults()">
                     Limpar Resultados
@@ -971,7 +971,7 @@
               <!-- Indicador de Carregamento da Busca -->
               <div id="storeSearchLoading" style="display:none;text-align:center;padding:24px 12px">
                 <div class="spinner" style="margin:0 auto 10px;width:28px;height:28px;border:3px solid #23352b;border-top-color:#00ff88;border-radius:50%;animation:spin 0.8s linear infinite"></div>
-                <div style="font-size:0.86rem;color:var(--muted)">Consultando catálogos e respeitando limites por domínio...</div>
+                <div style="font-size:0.86rem;color:var(--muted)">Consultando o catálogo salvo...</div>
               </div>
 
               <!-- Tabela de Resultados -->
@@ -2033,6 +2033,6 @@
     <div id="toastMessage">Operação realizada com sucesso!</div>
   </div>
 
-  <script src="/js/panel.js?v=20261019-quote-table-v7" defer></script>
+  <script src="/js/panel.js?v=20261028-catalogo-v1" defer></script>
 </body>
 </html>

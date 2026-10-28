@@ -1821,7 +1821,13 @@ function populateQuoteModalSelectors() {
 /* ==========================================================================
    Gestão de Itens do Orçamento (Tabela Editável, Busca e Detalhes Internos)
    ========================================================================== */
+let quoteCatalogSearchSequence = 0;
+let quoteCatalogSearchTimer;
+const quoteCatalogOffers = new Map();
+
 function handleQuoteCatalogSearch(query) {
+  const sequence = ++quoteCatalogSearchSequence;
+  clearTimeout(quoteCatalogSearchTimer);
   const dropdown = document.getElementById('quoteCatalogDropdown');
   const clearBtn = document.getElementById('btnClearQuoteSearch');
   if (!dropdown) return;
@@ -1832,7 +1838,7 @@ function handleQuoteCatalogSearch(query) {
   const parts = DB.get('parts') || [];
   const services = DB.get('services') || [];
 
-  const matchedParts = parts.filter(p => p.active !== 0 && (
+  const matchedParts = parts.filter(p => !/^part_(kabum|pichau|terabyte)_/.test(p.id) && p.active !== 0 && (
     !q ||
     (p.brand && p.brand.toLowerCase().includes(q)) ||
     (p.model && p.model.toLowerCase().includes(q)) ||
@@ -1848,7 +1854,7 @@ function handleQuoteCatalogSearch(query) {
     (s.desc && s.desc.toLowerCase().includes(q))
   )).slice(0, 10);
 
-  if (!matchedParts.length && !matchedServices.length) {
+  if (!matchedParts.length && !matchedServices.length && !q) {
     dropdown.innerHTML = `
       <div style="padding:12px;text-align:center;color:var(--muted);font-size:0.82rem">
         Nenhuma peça ou serviço encontrado para "<strong>${escapeHtml(q)}</strong>".
@@ -1890,9 +1896,42 @@ function handleQuoteCatalogSearch(query) {
 
   dropdown.innerHTML = html;
   dropdown.style.display = 'block';
+  if (!q) return;
+  dropdown.insertAdjacentHTML('beforeend', '<div id="quoteSupplierResults" style="padding:12px;color:var(--muted);font-size:0.82rem" role="status">Buscando no catálogo de fornecedores...</div>');
+  quoteCatalogSearchTimer = setTimeout(async () => {
+    try {
+      const response = await fetchAdmin(`/api/suppliers/catalog?q=${encodeURIComponent(q)}&limit=15`);
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Não foi possível consultar o catálogo.');
+      if (sequence !== quoteCatalogSearchSequence) return;
+      const target = document.getElementById('quoteSupplierResults');
+      if (!target) return;
+      quoteCatalogOffers.clear();
+      for (const offer of data.results) quoteCatalogOffers.set(offer.id, offer);
+      target.innerHTML = data.results.length ? `<div class="search-group-title">Fornecedores (${data.total} ofertas)</div>` + data.results.map(o => {
+        const checked = o.lastChecked ? new Date(o.lastChecked).toLocaleString('pt-BR') : 'Não conferido';
+        const available = o.availability === 'em_estoque' ? 'Disponível na loja' : o.availability === 'esgotado' ? 'Esgotado' : 'Disponibilidade a confirmar';
+        const cost = o.pricePix ?? o.priceCard;
+        const offerId = encodeURIComponent(o.id).replace(/'/g, '%27');
+        return `<div class="search-item-row" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="addOfferToQuote(decodeURIComponent('${offerId}'))">
+          ${o.imageUrl ? `<img src="${escapeHtml(o.imageUrl)}" width="34" height="34" style="object-fit:contain;background:#fff;flex-shrink:0" alt="">` : ''}
+          <div><div class="search-item-name">${escapeHtml(o.title)}</div>
+          <div class="search-item-meta">${escapeHtml(o.supplierName || o.supplier)} · ${escapeHtml(available)}${o.isStale ? ' · Atualização pendente' : ''}</div>
+          <div class="search-item-meta">Conferido: ${escapeHtml(checked)}</div></div>
+          <div class="search-item-price">${cost == null ? 'Preço a confirmar' : formatCurrency(cost)}<small style="display:block">Custo ${o.pricePix != null ? 'Pix' : 'cartão'}</small></div>
+        </div>`;
+      }).join('') : 'Nenhuma oferta encontrada no catálogo salvo. A coleta automática pode ainda estar pendente.';
+    } catch (error) {
+      if (sequence !== quoteCatalogSearchSequence) return;
+      const target = document.getElementById('quoteSupplierResults');
+      if (target) target.textContent = error.message;
+    }
+  }, 250);
 }
 
 function clearQuoteSearch() {
+  ++quoteCatalogSearchSequence;
+  clearTimeout(quoteCatalogSearchTimer);
   const inp = document.getElementById('quoteCatalogSearchInput');
   const dropdown = document.getElementById('quoteCatalogDropdown');
   const clearBtn = document.getElementById('btnClearQuoteSearch');
@@ -3004,42 +3043,48 @@ function filterOffers() {
   }).join('');
 }
 
-function addOfferToQuote(offerId) {
+async function addOfferToQuote(offerId) {
   const offers = DB.get('supplierOffers') || [];
-  const o = offers.find(x => x.id === offerId);
+  const o = quoteCatalogOffers.get(offerId) || offers.find(x => x.id === offerId) || currentSearchResults.find(x => x.id === offerId);
   if (!o) return showToast('Oferta não encontrada.', 'error');
+  if (o.availability === 'esgotado') return showToast('Esta oferta está esgotada na loja.', 'error');
 
   const cost = o.pricePix || o.priceCard || 0;
-  const suggestedPrice = cost > 0 ? Math.round(cost * 1.25 * 100) / 100 : 0;
+  if (!cost) return showToast('Confirme o preço desta oferta antes de adicioná-la.', 'error');
+  const suggestedPrice = o.partSellPrice > 0 ? o.partSellPrice : Math.round(cost * 1.25 * 100) / 100;
 
   // Se o modal de orçamento não estiver aberto, abre um novo orçamento
   const quoteModal = document.getElementById('quoteModalOverlay');
-  if (!quoteModal || quoteModal.style.display === 'none') {
-    openNewQuoteModal();
+  if (!quoteModal || !quoteModal.classList.contains('active')) {
+    await openQuoteModal();
   }
 
   // Adicionar item na tabela de itens do orçamento
-  quoteItems.push({
+  currentQuoteItems.push({
     id: 'qi_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
     type: 'peca',
-    title: o.title,
-    extraDesc: `Fornecedor: ${o.supplierName || o.supplierId} | SKU: ${o.storeSku || '—'}`,
-    qty: 1,
+    name: o.title,
+    details: `Fornecedor: ${o.supplierName || o.supplierId} | SKU: ${o.storeSku || '—'} | ${o.url}`,
+    quantity: 1,
     unitPrice: suggestedPrice,
     subtotal: suggestedPrice,
-    cost: cost,
+    unitCost: cost,
+    costSubtotal: cost,
+    showDetails: false,
     supplier: o.supplierName || o.supplierId,
     itemId: o.partId || null
   });
 
-  renderQuoteItemsTable();
-  recalcQuoteTotals();
+  clearQuoteSearch();
+  renderQuoteItemRows();
+  recalcQuoteFinancials();
+  if (o.isStale) showToast('Oferta adicionada. Confira o preço na loja antes de finalizar.', 'info');
   showToast(`Item "${o.title.slice(0, 30)}..." adicionado ao orçamento!`);
 }
 
 let currentSearchResults = [];
 
-async function searchStores() {
+async function searchStores(page = 1) {
   const queryInput = document.getElementById('storeSearchQuery');
   const q = (queryInput?.value || '').trim();
   if (!q) {
@@ -3057,31 +3102,28 @@ async function searchStores() {
   loading.style.display = 'block';
   tbody.innerHTML = '';
   btnImport.style.display = 'none';
-  titleEl.textContent = `Buscando por "${q}" nas lojas parceiras...`;
+  titleEl.textContent = `Buscando por "${q}" no catálogo salvo...`;
 
   try {
-    const res = await fetchAdmin(`/api/suppliers/search?q=${encodeURIComponent(q)}&supplier=${encodeURIComponent(supplier)}&limit=6`);
+    const res = await fetchAdmin(`/api/suppliers/catalog?q=${encodeURIComponent(q)}&supplier=${encodeURIComponent(supplier)}&limit=30&page=${page}`);
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Falha ao buscar nas lojas parceiras.');
 
     loading.style.display = 'none';
     currentSearchResults = data.results || [];
 
-    const blockedSources = (data.sources || []).filter(s => s.blocked);
-    const successSources = (data.sources || []).filter(s => s.status === 'sucesso');
-
-    let summaryText = `Encontrados ${currentSearchResults.length} produtos para "${escapeHtml(q)}"`;
-    if (blockedSources.length) {
-      const blockedNames = blockedSources.map(s => s.supplierName).join(', ');
-      summaryText += ` <span style="font-size:0.75rem;color:var(--warning)">(Proteção anti-robô ativa em: ${blockedNames})</span>`;
+    titleEl.textContent = `${data.total} ofertas para "${q}" · página ${data.page} de ${Math.max(data.pages, 1)}`;
+    let pagination = document.getElementById('storeSearchPagination');
+    if (!pagination) {
+      pagination = document.createElement('div');
+      pagination.id = 'storeSearchPagination';
+      pagination.style.cssText = 'display:flex;gap:8px;margin-top:12px';
+      container.appendChild(pagination);
     }
-    titleEl.innerHTML = summaryText;
+    pagination.innerHTML = `<button class="btn btn-ghost btn-sm" ${page <= 1 ? 'disabled' : ''} onclick="searchStores(${page - 1})">Anterior</button><button class="btn btn-ghost btn-sm" ${page >= data.pages ? 'disabled' : ''} onclick="searchStores(${page + 1})">Próxima</button>`;
 
     if (!currentSearchResults.length) {
-      let emptyMsg = 'Nenhum produto retornado para esta consulta.';
-      if (blockedSources.length) {
-        emptyMsg += ' Algumas lojas estão temporariamente com bloqueio anti-robô (HTTP 403). Preservando integridade das fontes.';
-      }
+      const emptyMsg = 'Nenhum produto encontrado no catálogo salvo. A coleta automática pode ainda estar pendente.';
       tbody.innerHTML = `<tr><td colspan="10" class="empty-state" style="padding:20px"><p>${emptyMsg}</p></td></tr>`;
       return;
     }
@@ -3093,10 +3135,10 @@ async function searchStores() {
     };
 
     tbody.innerHTML = currentSearchResults.map((it, idx) => {
-      const timeStr = it.lastChecked ? new Date(it.lastChecked).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '—';
+      const timeStr = it.lastChecked ? new Date(it.lastChecked).toLocaleString('pt-BR') : '—';
       const availBadge = it.availability === 'em_estoque'
-        ? '<span class="badge badge-success">Em Estoque</span>'
-        : '<span class="badge badge-danger">Esgotado</span>';
+        ? '<span class="badge badge-success">Disponível na loja</span>'
+        : it.availability === 'esgotado' ? '<span class="badge badge-danger">Esgotado</span>' : '<span class="badge">A confirmar</span>';
 
       return `
         <tr>
@@ -3121,7 +3163,7 @@ async function searchStores() {
           </td>
           <td><span style="color:var(--muted);font-size:0.8rem">Não consultado</span></td>
           <td>${availBadge}</td>
-          <td><span style="font-size:0.8rem;color:var(--muted)">${timeStr}</span></td>
+          <td><span style="font-size:0.8rem;color:var(--muted)">${timeStr}${it.isStale ? '<br>Atualização pendente' : ''}</span></td>
           <td style="text-align:right">
             <a class="btn btn-ghost btn-sm" href="${escapeHtml(it.url)}" target="_blank" rel="noopener noreferrer" title="Abrir link na loja">↗</a>
           </td>
@@ -3168,22 +3210,7 @@ async function importSelectedSearchResults() {
     }
   });
 
-  try {
-    showToast(`Importando ${selectedItems.length} ofertas...`, 'info');
-    const res = await fetchAdmin('/api/suppliers/import-batch', {
-      method: 'POST',
-      body: JSON.stringify({ items: selectedItems })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Falha na importação em lote.');
-
-    showToast(`Sucesso: ${data.imported} novas ofertas importadas, ${data.updated} atualizadas (evitando duplicatas).`);
-    await DB.sync();
-    renderSuppliers();
-    clearSearchResults();
-  } catch (err) {
-    showToast(err.message, 'error');
-  }
+  for (const offer of selectedItems) await addOfferToQuote(offer.id);
 }
 
 function clearSearchResults() {

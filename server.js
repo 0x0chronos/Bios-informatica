@@ -10,6 +10,7 @@ const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const { openDatabase } = require('./scripts/database');
+const { searchCatalog } = require('./scripts/catalog');
 const { fetchSupplierPreview, validateUrlSecurity, searchStoreProducts } = require('./scripts/suppliers');
 const app = express();
 const JWT_SECRET = process.env.JWT_SECRET || '';
@@ -152,7 +153,7 @@ function cookieOptions(req){return {httpOnly:true,sameSite:'strict',secure:proce
 function readCookie(req){const raw=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith('bios_session='));return raw?raw.slice('bios_session='.length):'';}
 app.disable('x-powered-by');
 if(process.env.TRUST_PROXY_HOPS){const n=Number(process.env.TRUST_PROXY_HOPS);if(!Number.isInteger(n)||n<1||n>5)throw new Error('TRUST_PROXY_HOPS inválido.');app.set('trust proxy',n);}
-app.use(helmet({contentSecurityPolicy:{directives:{defaultSrc:["'self'"],scriptSrc:["'self'","'unsafe-inline'"],scriptSrcAttr:["'unsafe-inline'"],styleSrc:["'self'","'unsafe-inline'"],imgSrc:["'self'",'data:'],connectSrc:["'self'"],fontSrc:["'self'"],objectSrc:["'none'"],frameAncestors:["'none'"],formAction:["'self'"],upgradeInsecureRequests:process.env.NODE_ENV==='production'?[]:null}},referrerPolicy:{policy:'no-referrer'}}));
+app.use(helmet({contentSecurityPolicy:{directives:{defaultSrc:["'self'"],scriptSrc:["'self'","'unsafe-inline'"],scriptSrcAttr:["'unsafe-inline'"],styleSrc:["'self'","'unsafe-inline'"],imgSrc:["'self'",'data:','https://*.kabum.com.br','https://media.pichau.com.br','https://img.terabyteshop.com.br'],connectSrc:["'self'"],fontSrc:["'self'"],objectSrc:["'none'"],frameAncestors:["'none'"],formAction:["'self'"],upgradeInsecureRequests:process.env.NODE_ENV==='production'?[]:null}},referrerPolicy:{policy:'no-referrer'}}));
 app.use(compression());
 app.use(express.json({limit:'50kb'}));
 app.use('/api',(req,res,next)=>{res.set('Cache-Control','no-store');res.set('X-Robots-Tag','noindex, nofollow');next();});
@@ -677,6 +678,10 @@ app.put('/api/company-settings',asyncRoute(async(req,res)=>{
 }));
 
 // Suppliers & Pricing Monitor API
+app.get('/api/suppliers/catalog',authenticate,asyncRoute(async(req,res)=>{
+ res.set('Cache-Control','no-store');
+ res.json(await searchCatalog(store,req.query));
+}));
 app.get('/api/suppliers',authenticate,asyncRoute(async(req,res)=>{
  const rows=await store.all('SELECT * FROM suppliers ORDER BY id ASC');
  res.json(rows);
