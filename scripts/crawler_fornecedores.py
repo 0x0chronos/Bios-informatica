@@ -283,7 +283,7 @@ async def run(args):
     conn, postgres = (None,False) if args.dry_run else open_database(args.database)
     reports, products, started = [], {}, utcnow()
     try:
-        async with AsyncWebCrawler(config=BrowserConfig(headless=True,verbose=False)) as crawler:
+        async with AsyncWebCrawler(config=BrowserConfig(headless=True,enable_stealth=True,verbose=False)) as crawler:
             for store in stores:
                 failures = 0
                 for category, paths in selected.items():
