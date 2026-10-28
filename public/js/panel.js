@@ -3072,19 +3072,21 @@ async function addOfferToQuote(offerId) {
     costSubtotal: cost,
     showDetails: false,
     supplier: o.supplierName || o.supplierId,
+    sku: o.storeSku || '',
     itemId: o.partId || null
   });
 
   clearQuoteSearch();
   renderQuoteItemRows();
   recalcQuoteFinancials();
-  if (o.isStale) showToast('Oferta adicionada. Confira o preço na loja antes de finalizar.', 'info');
-  showToast(`Item "${o.title.slice(0, 30)}..." adicionado ao orçamento!`);
+  showToast(o.isStale ? 'Oferta adicionada. Confira o preço na loja antes de finalizar.' : `Item "${o.title.slice(0, 30)}..." adicionado ao orçamento!`, o.isStale ? 'info' : 'success');
 }
 
 let currentSearchResults = [];
+let storeSearchSequence = 0;
 
 async function searchStores(page = 1) {
+  const sequence = ++storeSearchSequence;
   const queryInput = document.getElementById('storeSearchQuery');
   const q = (queryInput?.value || '').trim();
   if (!q) {
@@ -3107,6 +3109,7 @@ async function searchStores(page = 1) {
   try {
     const res = await fetchAdmin(`/api/suppliers/catalog?q=${encodeURIComponent(q)}&supplier=${encodeURIComponent(supplier)}&limit=30&page=${page}`);
     const data = await res.json();
+    if (sequence !== storeSearchSequence) return;
     if (!res.ok) throw new Error(data.error || 'Falha ao buscar nas lojas parceiras.');
 
     loading.style.display = 'none';
@@ -3176,6 +3179,7 @@ async function searchStores(page = 1) {
     updateSelectedSearchCount();
 
   } catch (err) {
+    if (sequence !== storeSearchSequence) return;
     loading.style.display = 'none';
     showToast(err.message, 'error');
   }
@@ -3214,6 +3218,7 @@ async function importSelectedSearchResults() {
 }
 
 function clearSearchResults() {
+  ++storeSearchSequence;
   const container = document.getElementById('storeSearchResultsContainer');
   if (container) container.style.display = 'none';
   const tbody = document.getElementById('storeSearchResultsTbody');
