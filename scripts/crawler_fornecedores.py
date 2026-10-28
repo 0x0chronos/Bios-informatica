@@ -261,7 +261,11 @@ async def collect_category(crawler, store, category, url, *, pages=0, max_pages=
                 report['complete'] = True
                 break
             if report['pages'] >= (pages or max_pages):
-                report['error'] = 'Limite de páginas atingido; coleta parcial'
+                if pages:
+                    report['limited'] = True
+                    report['message'] = 'Limite solicitado de páginas atingido; coleta parcial'
+                else:
+                    report['error'] = 'Limite de segurança atingido; coleta parcial'
                 break
             url = following
     except Exception as error:
@@ -308,7 +312,7 @@ async def run(args):
         target.parent.mkdir(parents=True,exist_ok=True)
         target.write_text(json.dumps(output,ensure_ascii=False,indent=2),encoding='utf-8')
     print(json.dumps({'output':str(target),'products':len(products),'complete':output['complete']}),flush=True)
-    return 0 if output['complete'] else 1
+    return 0 if reports and all(r['complete'] or r.get('limited') for r in reports) else 1
 
 
 def main():

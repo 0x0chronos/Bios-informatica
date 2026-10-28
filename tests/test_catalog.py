@@ -136,6 +136,7 @@ class CollectionTests(unittest.IsolatedAsyncioTestCase):
             _,report=await collect_category(Crawler(),'kabum','Processador','https://www.kabum.com.br/hardware/processadores?page_number=1',pages=1)
         self.assertFalse(report['complete'])
         self.assertEqual(report['pages'],1)
+        self.assertTrue(report['limited'])
 
 
 if __name__=='__main__': unittest.main()
