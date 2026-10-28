@@ -1,69 +1,79 @@
-name: Sincronizar Catálogo de Fornecedores (KaBuM, Terabyte, Pichau)
+name: Atualizar catálogo de fornecedores
 
 on:
   schedule:
-    # Roda automaticamente às 00:00 e 12:00 no Horário de Brasília (03:00 e 15:00 UTC)
+    # 00h e 12h em Brasília (UTC-3). A coleta termina depois do início agendado.
     - cron: '0 3,15 * * *'
   workflow_dispatch:
     inputs:
       category:
-        description: 'Categoria específica (ex: Processador, Placa de Vídeo) ou vazio para todas'
+        description: 'Categoria (vazio = todas)'
         required: false
-        default: ''
+        type: string
       pages:
-        description: 'Páginas por departamento (padrão: 1 = ~1.500 produtos)'
-        required: false
-        default: '1'
+        description: 'Páginas por categoria (0 = percorrer até o fim)'
+        default: '0'
+        type: string
+      dry_run:
+        description: 'Verificar coleta sem escrever no banco'
+        default: false
+        type: boolean
 
 permissions:
-  contents: write
+  contents: read
+
+concurrency:
+  group: catalogo-fornecedores
+  cancel-in-progress: false
 
 jobs:
   crawler-sync:
-    name: Crawl4AI Hardware Sync
+    name: Coletar ${{ matrix.store }}
     runs-on: ubuntu-latest
-    timeout-minutes: 45
-
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        store: [kabum, pichau, terabyte]
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      CATEGORY: ${{ inputs.category || '' }}
+      PAGES: ${{ inputs.pages || '0' }}
+      DRY_RUN: ${{ inputs.dry_run || false }}
+      STORE: ${{ matrix.store }}
     steps:
-      - name: Baixar Código do Repositório
-        uses: actions/checkout@v4
-
-      - name: Configurar Python 3.11
+      - uses: actions/checkout@v4
+      - name: Configurar Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: 'pip'
-
-      - name: Instalar Dependências e Playwright Headless
+          cache: pip
+          cache-dependency-path: requirements-crawler.txt
+      - name: Verificar configuração
+        shell: bash
         run: |
-          python -m pip install --upgrade pip
-          pip install crawl4ai playwright beautifulsoup4 psycopg2-binary
+          if [[ "$DRY_RUN" != "true" && -z "$DATABASE_URL" ]]; then
+            echo "::error::Configure o secret DATABASE_URL com a conexão PostgreSQL do site."
+            exit 1
+          fi
+      - name: Instalar coletor e navegador
+        run: |
+          python -m pip install -r requirements-crawler.txt
           python -m playwright install --with-deps chromium
-
-      - name: Executar Crawler de Hardware (Crawl4AI)
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      - name: Testar extração e persistência
+        run: python -m unittest discover -s tests -p 'test_catalog*.py'
+      - name: Atualizar catálogo
+        shell: bash
         run: |
-          CMD="python scripts/crawler_fornecedores.py"
-          if [ -n "${{ github.event.inputs.category }}" ]; then
-            CMD="$CMD --category '${{ github.event.inputs.category }}'"
-          else
-            CMD="$CMD --all"
-          fi
-          CMD="$CMD --pages ${{ github.event.inputs.pages || '1' }}"
-          echo "Executando: $CMD"
-          eval $CMD
-
-      - name: Salvar Alterações no SQLite (se não estiver usando Supabase)
-        if: env.DATABASE_URL == ''
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add database.sqlite Bios-informatica-producao/database.sqlite Bios-informatica-v1.1/database.sqlite || true
-          if git diff --staged --quiet; then
-            echo "Nenhuma alteração nos preços detectada."
-          else
-            git commit -m "chore(crawler): atualização automática de preços e fotos dos fornecedores [skip ci]"
-            git push
-          fi
-
+          args=(--all --store "$STORE" --pages "$PAGES" --output "scratch/catalog-$STORE.json")
+          if [[ -n "$CATEGORY" ]]; then args+=(--category "$CATEGORY"); fi
+          if [[ "$DRY_RUN" == "true" ]]; then args+=(--dry-run); fi
+          python scripts/crawler_fornecedores.py "${args[@]}"
+      - name: Guardar relatório da coleta
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: catalogo-${{ matrix.store }}
+          path: scratch/catalog-${{ matrix.store }}.json
+          if-no-files-found: ignore
+          retention-days: 7
