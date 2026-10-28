@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://biosinformatica.store/sitemap.xml

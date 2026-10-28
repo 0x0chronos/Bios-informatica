@@ -1,0 +1,11 @@
+{
+  "server": "9 testes passaram em Node 20.20.2 e Node 24.19.0 (8 cenários e suíte principal).",
+  "interface": "DOM simulado: login/renderização, navegação de 7 páginas, detalhes da OS, orçamento, DELETE, menu e aprovação.",
+  "migration": "Cópia do banco original: integridade SQLite e contagens preservadas.",
+  "dependencies": "npm audit --omit=dev: nenhuma vulnerabilidade conhecida reportada na consulta desta execução.",
+  "limits": [
+    "Inspeção visual em navegador real pendente.",
+    "Persistência do banco e proxy/HTTPS na Hostinger pendentes."
+  ],
+  "backup": "Backup íntegro, restaurado em outro caminho e consultado após iniciar o aplicativo."
+}

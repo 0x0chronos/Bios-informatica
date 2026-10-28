@@ -1,0 +1,12 @@
+node_modules/
+.env
+*.log
+*.mp4
+*.pdf
+*.sqlite-shm
+*.sqlite-wal
+.system_generated/
+__pycache__/
+*.pyc
+.playwright/
+scratch/

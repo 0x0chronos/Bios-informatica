@@ -1,0 +1,88 @@
+BIOS INFORMÁTICA — PACOTE DE PRODUÇÃO REVISADO
+Revisão: 21/10/2026. Publicação não realizada.
+
+O QUE ESTE ZIP CONTÉM
+Site público, painel privado, OS, clientes, peças, orçamentos, propostas,
+autenticação e conectores das três lojas. Somente código e recursos necessários.
+Não inclui node_modules, bancos, .env, senhas, cópias aninhadas, vídeos,
+pré-visualizações ou imagens antigas de animação. Não substitua seu banco por um
+banco vazio: os dados existentes continuam no Supabase/SQLite da instalação.
+
+CHRONOS HD
+A imagem entregue em produção estava reduzida a 1600×650; o código antigo só
+aceitava 1968×799 e deixava o fallback parado. Eventos de toque eram ignorados.
+O novo renderizador usa coordenadas proporcionais, canvas com DPR até 3,
+16 poses HD de cabeça, corpo/notebook B_ estáveis e fundo transparente.
+Mouse e caneta acompanham o ponteiro; no celular acompanha o dedo enquanto ele
+toca a página e volta ao repouso ao soltar/cancelar. A rolagem não é bloqueada.
+Redução de movimento, aba oculta e elemento fora da tela pausam a animação.
+Falha ao carregar mantém a imagem estática. Esse comportamento é intencional.
+Novos arquivos versionados e Cache-Control no-transform reduzem problemas de CDN.
+Mestre: 1086×1448; quatro folhas 1254×1254, quatro poses por folha.
+WebP lossless, com comparação dos pixels visíveis contra os PNGs originais.
+São imagens raster: resolução é finita. O tamanho de exibição foi limitado para
+manter nitidez; não há promessa de detalhe ilimitado em qualquer ampliação.
+
+FORNECEDORES: USO REAL E LIMITAÇÕES
+Fornecedores > Buscar nas lojas: consulta limitada, cache e mensagens por loja.
++ Importar por link: lê a página do produto e mostra a prévia para confirmar.
+Importar selecionados: salva ofertas sem criar estoque próprio fictício.
++ Orçamento: usa o montador existente e mantém os itens do rascunho.
+Confirme preço de venda e margem antes de salvar/enviar a proposta.
+Ative Terabyte na aba Fornecedores se a base antiga a mantiver como pendente.
+Status ativo significa conector habilitado; não garante resposta da loja.
+
+São parsers de HTML/JSON-LD/estado público, sem API comercial contratada.
+Na verificação de 21/10, robots.txt da Pichau restringia URLs com query string e
+o da Terabyte restringia /busca. Essas buscas são interrompidas pelo conector.
+A interface oferece abrir a busca na própria loja e importar um link de produto
+permitido. KaBuM respondeu HTTP 403 à consulta de robots neste ambiente.
+O cliente Node não pôde ser validado ao vivo deste ambiente por limitação DNS;
+a conectividade real deve ser conferida na Hostinger antes de depender das cotações.
+Os testes de parsing usam amostras controladas; não comprovam coleta ao vivo.
+Uma loja também pode mudar o HTML, exigir JavaScript, limitar acesso ou bloquear
+requisições. Nesses casos, confirme o preço manualmente. Não contorna CAPTCHA.
+
+Não estima Pix, cartão, parcelamento, frete ou estoque ausentes. Preço sem
+modalidade identificada aparece como tal e precisa de confirmação manual.
+Falhas preservam o último preço e a data, marcando-o como desatualizado.
+Ofertas antigas não entram automaticamente como custo atual em orçamento.
+Custos novos só entram em propostas mediante confirmação; versões e aprovações
+continuam preservadas. Não usa SKU de loja para unir peças de lojas diferentes.
+DNS e redirecionamentos são validados, a conexão usa o IP validado, há fila por
+domínio, pausa em 403/429 e limite de tempo/tamanho da resposta.
+
+ATUALIZAÇÃO PERIÓDICA
+O comando npm run sync:suppliers atualiza até 100 ofertas antigas, ativas e com
+autoSync habilitado. Respeita daily_sync_enabled=1; por padrão permanece desligado.
+Para uma execução manual explícita: npm run sync:suppliers -- --force
+Não altera o estado da opção diária nem aplica preços em propostas.
+Há trava com prazo no banco para evitar duas execuções simultâneas e log por oferta.
+Agende o comando no horário desejado somente se seu plano tiver cron/agendador.
+O horário/timezone da tela devem ser reproduzidos no agendador; salvar essa tela
+não cria um cron da Hostinger. Não há dependência de aba de navegador aberta.
+O processo agendado precisa receber as mesmas variáveis de banco da aplicação;
+BIOS_DOTENV_PATH pode apontar para um arquivo privado fora do diretório público.
+Nenhum agendamento externo foi criado ou ativado nesta revisão.
+
+COMO USAR NA HOSTINGER / NO CODEX
+1. Use este pacote como raiz única do projeto: package.json e server.js estão na
+   raiz do ZIP. Não copie a pasta antiga inteira por cima dele.
+2. Preserve as variáveis já configuradas, especialmente DATABASE_URL, JWT_SECRET,
+   SITE_URL, COOKIE_SECURE, NODE_ENV e TRUST_PROXY_HOPS. Preserve os dados e backups.
+   Se usar SQLite, DB_PATH/BACKUP_DIR devem continuar fora da pasta de implantação.
+3. Node >=20.18.1. A hospedagem instala dependências com npm ci.
+   Inicialização: npm start (ou node server.js). Use a porta fornecida pelo ambiente.
+4. Revise em homologação antes de publicar; faça backup do banco no serviço usado.
+   Não execute scripts antigos de setup/migração sobre produção.
+5. Após publicação autorizada, limpe o cache da Hostinger e teste a página sem cache,
+   o movimento/toque, login, OS existente, proposta e consulta de fornecedor por link.
+   Se uma loja recusar a consulta, a mensagem deve informar a limitação.
+
+VALIDAÇÃO DESTA REVISÃO
+45 testes automatizados aprovados: acesso, OS, dados legados, backup SQLite,
+SQL/transações PostgreSQL com dublês, catálogo, propostas/versionamento,
+fornecedores, segurança, sincronização e integração com o montador de orçamento.
+Mouse e renderização HD verificados no navegador em prévia local.
+Toque, DPR, redução de movimento e reescala por CDN cobertos por testes simulados.
+Não houve teste em telefone físico, alteração no banco de produção ou implantação.

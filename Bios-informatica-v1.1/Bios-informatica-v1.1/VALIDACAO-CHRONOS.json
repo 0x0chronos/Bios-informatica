@@ -1,0 +1,29 @@
+{
+  "scope": "Front-end mascot only; no deployment",
+  "syntax_check": "passed",
+  "behavior_tests": {
+    "passed": 4,
+    "coverage": [
+      "16 directions",
+      "deadzone",
+      "hysteresis",
+      "one scheduled repaint",
+      "touch fallback",
+      "reduced motion",
+      "load failure",
+      "tab visibility",
+      "offscreen pause",
+      "scroll reset"
+    ]
+  },
+  "browser_visual_qa": "unavailable; interactive and standalone previews provided",
+  "unchanged": {
+    "server.js": true,
+    "public/js/site.js": true,
+    "public/css/site.css": true,
+    "package.json": true,
+    "package-lock.json": true
+  },
+  "appearance": "Transparent mascot directly on page, no panel, border, labels, grid or caption",
+  "style_validation": "passed; existing JS unchanged"
+}

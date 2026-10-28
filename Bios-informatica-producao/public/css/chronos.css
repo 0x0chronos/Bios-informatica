@@ -1,0 +1,8 @@
+/* HD artwork, on the page itself; no card or decorative frame. */
+.chronos-figure{width:100%;height:500px;margin:0;position:relative;min-width:0}
+.chronos-stage{height:100%;display:grid;place-items:center;position:relative}
+.chronos-stage canvas,.chronos-stage img{grid-area:1/1;display:block;width:min(100%,360px);height:auto;aspect-ratio:1086/1448;image-rendering:auto;pointer-events:none;user-select:none;object-fit:contain}
+.chronos-stage [hidden]{display:none}
+@media(max-width:1050px){.chronos-figure{height:440px}.chronos-stage canvas,.chronos-stage img{width:min(100%,324px)}}
+@media(max-width:760px){.chronos-figure{height:350px;max-width:500px;margin:auto}.chronos-stage canvas,.chronos-stage img{width:min(100%,255px)}}
+@media(max-width:359px){.chronos-figure{height:310px}.chronos-stage canvas,.chronos-stage img{width:min(100%,225px)}}

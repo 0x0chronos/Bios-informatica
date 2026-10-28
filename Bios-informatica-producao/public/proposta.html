@@ -1,0 +1,983 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#101a19">
+  <title>Proposta Técnica & Orçamento | Bios Informática</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/site.css?v=20261019-bios3">
+  <style>
+    :root {
+      --bg: #0c1413;
+      --card-bg: #131f1d;
+      --card-border: #1e312e;
+      --accent: #22c55e;
+      --accent-glow: rgba(34, 197, 94, 0.15);
+      --primary: #0f766e;
+      --text: #e6f1ef;
+      --muted: #8aa39e;
+      --warning: #f59e0b;
+      --info: #38bdf8;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.5;
+    }
+    .header {
+      border-bottom: 1px solid var(--card-border);
+      background: rgba(12, 20, 19, 0.95);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 14px 0;
+    }
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.03em;
+    }
+    .brand-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 800;
+    }
+    .brand-light {
+      color: var(--muted);
+      font-weight: 400;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      color: var(--text);
+      transition: all 0.2s ease;
+    }
+    .btn-action:hover {
+      border-color: var(--muted);
+    }
+    .btn-whatsapp {
+      background: #128c7e;
+      border-color: #128c7e;
+      color: #ffffff;
+    }
+    .btn-whatsapp:hover {
+      background: #075e54;
+    }
+    .hero-box {
+      margin-top: 24px;
+      margin-bottom: 24px;
+      padding: 24px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      position: relative;
+    }
+    .proposal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+    }
+    .badge-rascunho { background: rgba(138, 163, 158, 0.2); color: var(--muted); }
+    .badge-aguardando_aprovacao { background: rgba(245, 158, 11, 0.15); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-aprovado { background: rgba(34, 197, 94, 0.18); color: var(--accent); border: 1px solid rgba(34, 197, 94, 0.4); }
+    .badge-convertido_os { background: rgba(56, 189, 248, 0.15); color: var(--info); }
+    .hero-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin: 0 0 6px 0;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+    .hero-sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 16px;
+    }
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      padding-top: 14px;
+      border-top: 1px solid var(--card-border);
+      font-size: 0.85rem;
+    }
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .meta-label {
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .meta-val {
+      color: var(--text);
+      font-weight: 600;
+    }
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0 0 16px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffffff;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 10px;
+    }
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+    }
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .items-table th {
+      text-align: left;
+      padding: 10px;
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .items-table td {
+      padding: 12px 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      vertical-align: top;
+    }
+    .item-type-badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .type-peca { background: rgba(56, 189, 248, 0.15); color: var(--info); }
+    .type-servico { background: rgba(34, 197, 94, 0.15); color: var(--accent); }
+    .type-avulso { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+    .item-name {
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .item-details {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .totals-box {
+      margin-top: 18px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .total-row.highlight {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ffffff;
+      border-top: 1px solid var(--card-border);
+      padding-top: 10px;
+      margin-top: 4px;
+    }
+    .total-row.highlight span:last-child {
+      color: var(--accent);
+    }
+    .approval-box {
+      background: linear-gradient(180deg, rgba(34, 197, 94, 0.06), rgba(15, 118, 110, 0.12));
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .approval-box.approved {
+      background: rgba(34, 197, 94, 0.12);
+      border-color: var(--accent);
+    }
+    .approval-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .approval-desc {
+      font-size: 0.9rem;
+      color: var(--text);
+      margin-bottom: 16px;
+      line-height: 1.45;
+    }
+    .checkbox-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      margin-bottom: 18px;
+    }
+    .checkbox-label input {
+      margin-top: 3px;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+    .btn-approve {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #0c1413;
+      font-size: 1rem;
+      font-weight: 750;
+      padding: 12px 28px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(34, 197, 94, 0.25);
+    }
+    .btn-approve:hover:not(:disabled) {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+    .btn-approve:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .conditions-list {
+      font-size: 0.85rem;
+      color: var(--muted);
+      padding-left: 20px;
+      margin: 8px 0;
+    }
+    .conditions-list li {
+      margin-bottom: 6px;
+    }
+    .legal-disclaimer {
+      font-size: 0.78rem;
+      color: var(--muted);
+      border-top: 1px dashed var(--card-border);
+      padding-top: 14px;
+      margin-top: 24px;
+      line-height: 1.4;
+    }
+    .footer {
+      padding: 30px 0;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+      border-top: 1px solid var(--card-border);
+      margin-top: 30px;
+    }
+    .loading-state, .error-state {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    @media (max-width: 600px) {
+      .hero-title { font-size: 1.3rem; }
+      .meta-grid { grid-template-columns: 1fr 1fr; }
+      .header-actions .btn-text { display: none; }
+      .btn-action { padding: 6px 10px; }
+      .items-table th:first-child,
+      .items-table td:first-child { display: none; }
+      .items-table th, .items-table td { padding: 8px 6px; font-size: 0.82rem; }
+    }
+    .print-only-header { display: none; }
+    @media print {
+      @page {
+        margin: 10mm 12mm 12mm 12mm;
+        size: A4 portrait;
+      }
+      body {
+        background: #ffffff !important;
+        color: #111827 !important;
+        font-size: 11px !important;
+        line-height: 1.35 !important;
+      }
+      .wrap {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .header, .approval-box, .btn-action, .footer, #btnWhatsAppHeader {
+        display: none !important;
+      }
+      .print-only-header {
+        display: block !important;
+        margin-bottom: 12px !important;
+        border-bottom: 2px solid #16a34a !important;
+        padding-bottom: 8px !important;
+      }
+      .hero-box {
+        border: 1px solid #e5e7eb !important;
+        background: #f9fafb !important;
+        color: #111827 !important;
+        padding: 10px 12px !important;
+        border-radius: 6px !important;
+        margin-bottom: 10px !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      .hero-title {
+        color: #111827 !important;
+        font-size: 15px !important;
+        margin: 2px 0 2px 0 !important;
+      }
+      .hero-sub {
+        color: #4b5563 !important;
+        font-size: 11.5px !important;
+        margin-bottom: 6px !important;
+      }
+      .meta-grid {
+        gap: 6px !important;
+        margin-top: 6px !important;
+        padding-top: 6px !important;
+        border-top: 1px solid #e5e7eb !important;
+      }
+      .meta-label {
+        color: #6b7280 !important;
+        font-size: 9.5px !important;
+      }
+      .meta-val {
+        color: #111827 !important;
+        font-size: 11px !important;
+      }
+      .section-card {
+        border: 1px solid #e5e7eb !important;
+        background: #ffffff !important;
+        color: #111827 !important;
+        padding: 10px 12px !important;
+        border-radius: 6px !important;
+        margin-bottom: 10px !important;
+        box-shadow: none !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      .section-title {
+        color: #15803d !important;
+        font-size: 12.5px !important;
+        margin-bottom: 8px !important;
+        padding-bottom: 4px !important;
+        border-bottom: 1px solid #e5e7eb !important;
+      }
+      .section-title svg {
+        display: none !important;
+      }
+      .items-table {
+        font-size: 10.5px !important;
+      }
+      .items-table th {
+        background: #f3f4f6 !important;
+        color: #374151 !important;
+        padding: 5px 6px !important;
+        border-bottom: 1px solid #d1d5db !important;
+        font-weight: 700 !important;
+      }
+      .items-table td {
+        color: #111827 !important;
+        border-bottom: 1px solid #e5e7eb !important;
+        padding: 5px 6px !important;
+      }
+      .items-table tr {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+      .item-name {
+        color: #111827 !important;
+        font-weight: 600 !important;
+      }
+      .item-details {
+        color: #4b5563 !important;
+        font-size: 9.5px !important;
+        line-height: 1.3 !important;
+      }
+      .item-type-badge {
+        border: 1px solid #d1d5db !important;
+        background: transparent !important;
+        color: #374151 !important;
+        font-size: 8.5px !important;
+        padding: 1px 4px !important;
+      }
+      .totals-box {
+        background: #f9fafb !important;
+        border: 1px solid #e5e7eb !important;
+        color: #111827 !important;
+        padding: 8px 10px !important;
+        margin-top: 8px !important;
+        border-radius: 6px !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+      .total-row {
+        color: #4b5563 !important;
+        font-size: 10.5px !important;
+      }
+      .total-row.highlight {
+        color: #15803d !important;
+        border-top: 1px solid #d1d5db !important;
+        padding-top: 5px !important;
+        margin-top: 3px !important;
+        font-size: 13.5px !important;
+      }
+      .total-row.highlight span:last-child {
+        color: #15803d !important;
+        font-weight: 800 !important;
+      }
+      .legal-disclaimer {
+        color: #6b7280 !important;
+        font-size: 8.5px !important;
+        margin-top: 10px !important;
+        padding-top: 6px !important;
+        border-top: 1px dashed #d1d5db !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+    }
+  .brand-mascot{display:block;width:44px;height:48px;object-fit:contain;flex-shrink:0}
+</style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="wrap nav">
+      <a class="brand" href="/" aria-label="Bios Informática, início">
+        <img id="proposalBrandLogo" class="brand-mascot" src="/assets/brand/chronos-bios.png" width="44" height="48" alt="Bios Informática" aria-hidden="true">
+        <span id="proposalBrandTitle">Bios<span class="brand-light">Informática</span></span>
+      </a>
+      <div class="header-actions">
+        <button type="button" class="btn-action" onclick="window.print()" title="Imprimir proposta ou salvar em PDF">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          <span class="btn-text">Imprimir / PDF</span>
+        </button>
+        <a id="btnWhatsAppHeader" target="_blank" rel="noopener noreferrer" class="btn-action btn-whatsapp" href="https://wa.me/5513996222130">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.12c-.24.68-1.21 1.26-1.68 1.34-.45.08-1.02.12-3.3-1.02-2.73-1.37-4.5-4.14-4.63-4.32-.14-.18-1.1-1.46-1.1-2.79 0-1.32.69-1.97.94-2.24.25-.26.54-.33.72-.33.18 0 .36 0 .52.01.16.01.39-.06.6.45.23.55.77 1.88.84 2.02.07.14.11.3.02.48-.09.18-.14.3-.27.46-.14.16-.29.35-.42.47-.14.13-.28.28-.12.56.16.27.7 1.15 1.5 1.86 1.03.92 1.9 1.2 2.17 1.34.27.14.43.12.59-.07.16-.18.69-.8.87-1.08.18-.27.37-.23.61-.14.25.09 1.57.74 1.84.88.27.14.45.21.52.32.07.12.07.69-.17 1.37z"/></svg>
+          <span class="btn-text">Dúvidas no WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" id="mainContent">
+    <div class="loading-state" id="loadingState">
+      <p>Carregando proposta técnica…</p>
+    </div>
+
+    <div class="error-state" id="errorState" style="display:none">
+      <h2 style="color:var(--warning)">Proposta não encontrada</h2>
+      <p id="errorMessage">Verifique se o link foi copiado corretamente ou solicite um novo link à Bios Informática.</p>
+      <a href="https://wa.me/5513996222130?text=Ol%C3%A1%2C%20Bios!%20Preciso%20de%20ajuda%20com%20o%20link%20da%20minha%20proposta." class="btn-action btn-whatsapp" style="margin-top:15px">Falar no WhatsApp</a>
+    </div>
+
+    <div id="proposalContent" style="display:none">
+      
+      <!-- Cabeçalho de Impressão e PDF com Logo Real da Empresa -->
+      <div class="print-only-header">
+        <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #222;padding-bottom:12px;margin-bottom:20px;">
+          <div style="display:flex;align-items:center;gap:14px;">
+            <img id="printBrandLogo" src="/assets/brand/chronos-bios.png" alt="Bios Informática" style="max-height:56px;max-width:160px;object-fit:contain;">
+            <div>
+              <div id="printCompanyName" style="font-size:18px;font-weight:700;color:#000;">Bios Informática</div>
+              <div id="printCompanySub" style="font-size:12px;color:#444;">Assistência Técnica & Montagem Especializada</div>
+            </div>
+          </div>
+          <div id="printCompanyContact" style="font-size:11px;color:#333;text-align:right;line-height:1.4;">
+            <span id="printCompanyPhone">(13) 99622-2130</span><br>
+            <span id="printCompanyEmail">contato@biosinformatica.com.br</span><br>
+            <span id="printCompanyCity">Peruíbe - SP</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cabeçalho Principal da Proposta -->
+      <section class="hero-box">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
+          <div>
+            <span class="proposal-badge" id="statusBadge">Aguardando Aprovação</span>
+            <span style="font-size:0.8rem;color:var(--muted);margin-left:8px" id="versionBadge">Versão 1</span>
+          </div>
+          <div style="text-align:right">
+            <span style="font-size:0.75rem;color:var(--muted);text-transform:uppercase">Código da Proposta</span>
+            <div style="font-family:monospace;font-weight:700;color:#ffffff;font-size:0.95rem" id="publicCodeDisplay">ORC-000000000000</div>
+          </div>
+        </div>
+
+        <h1 class="hero-title" id="proposalTitle">Montagem de Computador & Peças</h1>
+        <div class="hero-sub" id="proposalDevice">Equipamento / Especificação</div>
+
+        <div class="meta-grid">
+          <div class="meta-item">
+            <span class="meta-label">Cliente</span>
+            <span class="meta-val" id="clientNameDisplay">—</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Data de Emissão</span>
+            <span class="meta-val" id="createdDateDisplay">—</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Validade da Proposta</span>
+            <span class="meta-val" id="validUntilDisplay">—</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Prazo Estimado</span>
+            <span class="meta-val" id="deliveryTimeDisplay">—</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bloco de Aprovação Online -->
+      <section class="approval-box" id="approvalBox">
+        <h3 class="approval-title" id="approvalBoxTitle">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+          Aprovação da Proposta
+        </h3>
+        <p class="approval-desc" id="approvalBoxDesc">
+          Revise a relação de peças, mão de obra e condições abaixo. Ao aprovar online, seu pedido é confirmado e a Bios iniciará os preparativos do atendimento.
+        </p>
+
+        <form id="approvalForm" onsubmit="submitApproval(event)">
+          <label class="checkbox-label" for="agreeCheck">
+            <input type="checkbox" id="agreeCheck" required>
+            <span>Li a descrição dos componentes, serviços, prazos e condições comerciais e aprovo a proposta técnica nesta versão.</span>
+          </label>
+          <p class="approval-audit-note" style="margin:8px 0 16px 0;font-size:0.78rem;color:var(--muted);line-height:1.4">
+            🔒 <strong>Aviso de Privacidade & Auditoria:</strong> Ao confirmar, são registrados data/hora, a versão exata da proposta (v<span id="approvalVersionNote">1</span>), o resumo dos itens contratados e o endereço IP da conexão exclusivamente para validação técnica e comprovação do aceite conforme a nossa <a href="/privacidade" target="_blank" style="color:var(--accent);text-decoration:underline">Política de Privacidade</a>.
+          </p>
+          <button type="submit" class="btn-approve" id="btnApproveAction">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Aprovar Proposta Online
+          </button>
+        </form>
+
+        <div id="alreadyApprovedNotice" style="display:none">
+          <div style="display:flex;align-items:center;gap:10px;color:var(--accent);font-weight:700;font-size:1.05rem">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Proposta Aprovada pelo Cliente
+          </div>
+          <p style="margin:4px 0 0 0;font-size:0.85rem;color:var(--muted)" id="approvalTimestampNote">
+            Aprovação registrada para esta versão. A equipe da Bios seguirá com as etapas contratadas.
+          </p>
+        </div>
+      </section>
+
+      <!-- Relação de Itens / Peças / Serviços -->
+      <section class="section-card">
+        <h3 class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          Composição Detalhada da Proposta
+        </h3>
+
+        <div class="table-responsive">
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th style="width:70px">Tipo</th>
+                <th>Item / Especificações</th>
+                <th style="text-align:center;width:60px">Qtd</th>
+                <th style="text-align:right;width:120px">Unitário</th>
+                <th style="text-align:right;width:120px">Subtotal</th>
+              </tr>
+            </thead>
+            <tbody id="itemsTableBody">
+              <!-- Preenchido via JavaScript -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Totais Agrupados -->
+        <div class="totals-box">
+          <div class="total-row" id="rowPartsTotal">
+            <span>Subtotal de Componentes & Peças:</span>
+            <span id="partsTotalVal">R$ 0,00</span>
+          </div>
+          <div class="total-row" id="rowServicesTotal">
+            <span>Mão de Obra Técnica & Montagem:</span>
+            <span id="servicesTotalVal">R$ 0,00</span>
+          </div>
+          <div class="total-row" id="rowCustomTotal" style="display:none">
+            <span>Itens Avulsos & Suprimentos:</span>
+            <span id="customTotalVal">R$ 0,00</span>
+          </div>
+          <div class="total-row" id="rowShippingTotal" style="display:none">
+            <span>Frete / Deslocamento Técnico:</span>
+            <span id="shippingTotalVal">R$ 0,00</span>
+          </div>
+          <div class="total-row" id="rowDiscountTotal" style="display:none;color:var(--accent)">
+            <span>Desconto Comercial:</span>
+            <span id="discountTotalVal">- R$ 0,00</span>
+          </div>
+          <div class="total-row highlight">
+            <span>VALOR TOTAL:</span>
+            <span id="totalFinalVal">R$ 0,00</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Condições Comerciais, Pagamento e Garantia -->
+      <section class="section-card">
+        <h3 class="section-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Condições Comerciais & Pagamento
+        </h3>
+
+        <div style="margin-bottom:14px">
+          <strong style="color:var(--text);font-size:0.9rem">Formas de Pagamento:</strong>
+          <p style="margin:4px 0 0 0;color:var(--muted);font-size:0.88rem" id="paymentTermsDisplay">À combinar</p>
+        </div>
+
+        <div style="margin-bottom:14px">
+          <strong style="color:var(--text);font-size:0.9rem">Prazo de Execução:</strong>
+          <p style="margin:4px 0 0 0;color:var(--muted);font-size:0.88rem" id="deliveryTimeDetailDisplay">2 a 5 dias úteis</p>
+        </div>
+
+        <div style="margin-bottom:14px" id="clientNotesBlock">
+          <strong style="color:var(--text);font-size:0.9rem">Observações do Técnico:</strong>
+          <p style="margin:4px 0 0 0;color:var(--muted);font-size:0.88rem;white-space:pre-wrap" id="clientNotesDisplay">—</p>
+        </div>
+
+        <div>
+          <strong style="color:var(--text);font-size:0.9rem">Garantia & Termos:</strong>
+          <p style="margin:4px 0 0 0;color:var(--muted);font-size:0.85rem;line-height:1.45" id="warrantyTermsDisplay">
+            Garantia legal de 90 dias referente aos serviços prestados conforme art. 26 do Código de Defesa do Consumidor. Componentes e peças novas contam adicionalmente com a garantia direta de fábrica segundo termos do fabricante. Não cobre mau uso, umidade, quedas, sobretensão elétrica ou intervenções de terceiros.
+          </p>
+        </div>
+
+        <p class="legal-disclaimer">
+          Este documento constitui uma proposta técnica e comercial emitida pela Bios Informática para aprovação prévia de serviços e fornecimento de peças. Não possui valor de documento fiscal. Os valores e a disponibilidade dos componentes são válidos até a data limite indicada nesta proposta.
+        </p>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="wrap footer">
+    <p>Bios Informática · Assistência Técnica Especializada · Santos e Guarujá - SP</p>
+    <p style="margin-top:4px"><small>WhatsApp: (13) 99622-2130 · biosinformatica.store</small></p>
+  </footer>
+
+  <script>
+    'use strict';
+    let proposalData = null;
+    let currentToken = '';
+
+    function extractToken() {
+      const hash = location.hash.replace(/^#/, '').trim();
+      if (/^[a-f0-9]{64}$/.test(hash)) return hash;
+      const urlParams = new URLSearchParams(location.search);
+      const qToken = urlParams.get('token');
+      if (qToken && /^[a-f0-9]{64}$/.test(qToken)) return qToken;
+      // Also check last path segment
+      const parts = location.pathname.split('/').filter(Boolean);
+      const last = parts[parts.length - 1];
+      if (last && /^[a-f0-9]{64}$/.test(last)) return last;
+      return null;
+    }
+
+    function formatBRL(val) {
+      return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(val) || 0);
+    }
+
+    function formatDate(val) {
+      if (!val) return 'A combinar';
+      const d = new Date(val.length === 10 ? val + 'T12:00:00' : val);
+      return Number.isNaN(d.getTime()) ? 'A combinar' : d.toLocaleDateString('pt-BR');
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      })[m]);
+    }
+
+    async function loadProposal(token) {
+      currentToken = token;
+      document.getElementById('loadingState').style.display = 'block';
+      document.getElementById('errorState').style.display = 'none';
+      document.getElementById('proposalContent').style.display = 'none';
+
+      try {
+        const res = await fetch('/api/proposta/' + token, { cache: 'no-store' });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Não foi possível carregar a proposta.');
+
+        proposalData = data;
+        renderProposal(data);
+      } catch (err) {
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('errorState').style.display = 'block';
+        document.getElementById('errorMessage').textContent = err.message;
+      }
+    }
+
+    function renderProposal(data) {
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('proposalContent').style.display = 'block';
+
+      document.getElementById('publicCodeDisplay').textContent = data.publicCode;
+      document.getElementById('proposalTitle').textContent = data.title;
+      document.getElementById('proposalDevice').textContent = data.device ? 'Equipamento / Plataforma: ' + data.device : 'Montagem & Upgrade';
+      document.getElementById('clientNameDisplay').textContent = data.client?.name || 'Cliente';
+      document.getElementById('createdDateDisplay').textContent = formatDate(data.created);
+      document.getElementById('validUntilDisplay').textContent = formatDate(data.validUntil);
+      document.getElementById('deliveryTimeDisplay').textContent = data.deliveryTime || 'A combinar';
+      document.getElementById('versionBadge').textContent = 'Versão ' + data.version;
+
+      const appVerEl = document.getElementById('approvalVersionNote');
+      if (appVerEl) appVerEl.textContent = data.version;
+
+      if (data.company?.logoUrl) {
+        const logoImg = document.getElementById('proposalBrandLogo');
+        if (logoImg) logoImg.src = data.company.logoUrl;
+        const printLogo = document.getElementById('printBrandLogo');
+        if (printLogo) printLogo.src = data.company.logoUrl;
+      }
+      if (data.company?.name) {
+        if (data.company.name !== 'Bios Informática') {
+          const titleEl = document.getElementById('proposalBrandTitle');
+          if (titleEl) titleEl.textContent = data.company.name;
+        }
+        const printName = document.getElementById('printCompanyName');
+        if (printName) printName.textContent = data.company.name;
+      }
+      if (data.company?.tradeName) {
+        const printSub = document.getElementById('printCompanySub');
+        if (printSub) printSub.textContent = data.company.tradeName;
+      }
+      if (data.company?.phone) {
+        const printPhone = document.getElementById('printCompanyPhone');
+        if (printPhone) printPhone.textContent = data.company.phone;
+      }
+      if (data.company?.email) {
+        const printEmail = document.getElementById('printCompanyEmail');
+        if (printEmail) printEmail.textContent = data.company.email;
+      }
+      if (data.company?.city) {
+        const printCity = document.getElementById('printCompanyCity');
+        if (printCity) printCity.textContent = data.company.city;
+      }
+
+      // Status badge
+      const badge = document.getElementById('statusBadge');
+      badge.className = 'proposal-badge badge-' + data.status;
+      badge.textContent = data.statusLabel || data.status;
+
+      // WhatsApp Button header
+      const phone = (data.company?.whatsapp || '5513996222130').replace(/\D/g, '');
+      const waMsg = `Olá, Bios Informática! Gostaria de falar sobre a proposta ${data.publicCode} (${data.title}).`;
+      document.getElementById('btnWhatsAppHeader').href = `https://wa.me/${phone}?text=${encodeURIComponent(waMsg)}`;
+
+      // Render items table
+      const tbody = document.getElementById('itemsTableBody');
+      tbody.innerHTML = '';
+      (data.items || []).forEach(it => {
+        const tr = document.createElement('tr');
+        const typeLabel = it.type === 'peca' ? 'Peça' : it.type === 'servico' ? 'Serviço' : 'Avulso';
+        tr.innerHTML = `
+          <td><span class="item-type-badge type-${it.type}">${typeLabel}</span></td>
+          <td>
+            <div class="item-name">${escapeHtml(it.name)}</div>
+            ${it.details ? `<div class="item-details">${escapeHtml(it.details)}</div>` : ''}
+          </td>
+          <td style="text-align:center;font-weight:600">${it.quantity}</td>
+          <td style="text-align:right;color:var(--muted)">${formatBRL(it.unitPrice)}</td>
+          <td style="text-align:right;font-weight:700;color:var(--text)">${formatBRL(it.subtotal)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Totals
+      document.getElementById('partsTotalVal').textContent = formatBRL(data.totals.partsTotal);
+      document.getElementById('servicesTotalVal').textContent = formatBRL(data.totals.servicesTotal);
+      
+      const customRow = document.getElementById('rowCustomTotal');
+      if (data.totals.customTotal > 0) {
+        customRow.style.display = 'flex';
+        document.getElementById('customTotalVal').textContent = formatBRL(data.totals.customTotal);
+      } else {
+        customRow.style.display = 'none';
+      }
+
+      const shipRow = document.getElementById('rowShippingTotal');
+      if (data.totals.shippingTotal > 0) {
+        shipRow.style.display = 'flex';
+        document.getElementById('shippingTotalVal').textContent = formatBRL(data.totals.shippingTotal);
+      } else {
+        shipRow.style.display = 'none';
+      }
+
+      const discRow = document.getElementById('rowDiscountTotal');
+      if (data.totals.discountTotal > 0) {
+        discRow.style.display = 'flex';
+        document.getElementById('discountTotalVal').textContent = '- ' + formatBRL(data.totals.discountTotal);
+      } else {
+        discRow.style.display = 'none';
+      }
+
+      document.getElementById('totalFinalVal').textContent = formatBRL(data.totals.total);
+
+      // Commercial details
+      document.getElementById('paymentTermsDisplay').textContent = data.paymentTerms || 'À vista via Pix ou Cartão de Crédito';
+      document.getElementById('deliveryTimeDetailDisplay').textContent = data.deliveryTime || '2 a 5 dias úteis após aprovação';
+      
+      if (data.notes) {
+        document.getElementById('clientNotesBlock').style.display = 'block';
+        document.getElementById('clientNotesDisplay').textContent = data.notes;
+      } else {
+        document.getElementById('clientNotesBlock').style.display = 'none';
+      }
+
+      if (data.company?.warrantyTerms) {
+        document.getElementById('warrantyTermsDisplay').textContent = data.company.warrantyTerms;
+      }
+
+      // Approval Box logic
+      const appBox = document.getElementById('approvalBox');
+      const appForm = document.getElementById('approvalForm');
+      const approvedNotice = document.getElementById('alreadyApprovedNotice');
+      const appTitle = document.getElementById('approvalBoxTitle');
+      const appDesc = document.getElementById('approvalBoxDesc');
+
+      if (data.approved) {
+        appBox.className = 'approval-box approved';
+        appForm.style.display = 'none';
+        approvedNotice.style.display = 'block';
+        appTitle.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Proposta Aprovada`;
+        appDesc.textContent = `Esta proposta (versão ${data.version}) foi aprovada. A Bios Informática já recebeu a confirmação e está preparando seu atendimento.`;
+      } else if (data.status === 'aguardando_aprovacao' || data.status === 'rascunho') {
+        appBox.className = 'approval-box';
+        appForm.style.display = 'block';
+        approvedNotice.style.display = 'none';
+        appTitle.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg> Aprovação da Proposta · Versão ${data.version}`;
+        appDesc.textContent = 'Revise a relação de peças, mão de obra e condições acima. Ao aprovar online, seu pedido é confirmado e a Bios iniciará os preparativos do atendimento.';
+      } else {
+        appBox.style.display = 'none';
+      }
+    }
+
+    async function submitApproval(event) {
+      event.preventDefault();
+      if (!proposalData) return;
+      const check = document.getElementById('agreeCheck');
+      if (!check.checked) return alert('Por favor, confirme a leitura das condições para prosseguir.');
+
+      const btn = document.getElementById('btnApproveAction');
+      btn.disabled = true;
+      btn.textContent = 'Registrando aprovação…';
+
+      try {
+        const res = await fetch('/api/proposta/' + currentToken + '/approve', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Bios-Request': '1'
+          },
+          body: JSON.stringify({
+            version: proposalData.version,
+            accepted: true
+          })
+        });
+        const result = await res.json();
+        if (!res.ok) throw new Error(result.error || 'Não foi possível registrar a aprovação.');
+
+        await loadProposal(currentToken);
+      } catch (err) {
+        alert('Erro ao aprovar proposta: ' + err.message);
+        btn.disabled = false;
+        btn.textContent = 'Aprovar Proposta Online';
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const token = extractToken();
+      if (token) {
+        loadProposal(token);
+      } else {
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('errorState').style.display = 'block';
+        document.getElementById('errorMessage').textContent = 'Nenhum código de acesso foi fornecido na URL. Use o link exclusivo recebido da Bios.';
+      }
+    });
+
+    window.addEventListener('hashchange', () => {
+      const token = extractToken();
+      if (token && token !== currentToken) {
+        loadProposal(token);
+      }
+    });
+  </script>
+</body>
+</html>

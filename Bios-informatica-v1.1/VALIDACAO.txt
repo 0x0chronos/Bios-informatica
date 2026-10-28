@@ -1,0 +1,14 @@
+Bios Informática — revisão local, 19/10/2026
+
+Runtime: Node.js 24.19.0
+Comando: npm test
+Resultado: 30 testes; 30 aprovados; 0 falhas; 0 ignorados.
+
+SQL PostgreSQL: validação local com PGlite (fora das dependências de produção).
+Fluxos aprovados: esquema idempotente; login; peça; proposta; sigilo de custos; aprovação; nova versão; duplicação; conversão em OS com serviço criado automaticamente; rollback.
+Pool: testes com cliente simulado confirmam uso do mesmo cliente em BEGIN/COMMIT/ROLLBACK.
+
+Visual: página pública desktop, login e página pública em frame 390 × 844; menu móvel e contraste conferidos.
+
+Limites: não houve acesso à Hostinger nem ao banco real Supabase. Pooler, certificado, permissões RLS e Node da hospedagem ainda precisam de homologação no destino separado.
+Nenhum registro de produção foi recuperado, alterado ou excluído.
