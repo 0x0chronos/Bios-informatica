@@ -15,7 +15,23 @@ def kabum_html(code=123, following=0, available=True):
     return '<script id="__NEXT_DATA__">' + json.dumps({'props':{'pageProps':{'data':json.dumps({'catalogServer':catalog})}}}) + '</script>'
 
 
+def terabyte_html(codes, total, more=True):
+    return '<script id="tera-facet-counts" type="application/json">' + json.dumps({'total':total}) + '</script>' + ''.join(
+        f'<div class="product-item"><a class="product-item__name" href="/produto/{code}/cpu">Processador AMD {code}</a>'
+        '<div class="product-item__new-price"><span>R$ 999,99</span></div></div>' for code in codes
+    ) + ('<a class="tfv2-more" role="button">Ver mais produtos</a>' if more else '')
+
+
 class ExtractionTests(unittest.TestCase):
+    def test_terabyte_unloaded_products_cannot_be_complete(self):
+        url='https://www.terabyteshop.com.br/hardware/placas-de-video'
+        _, following=parse_page(terabyte_html([1],2),'terabyte',url)
+        self.assertEqual(following,url)
+        with self.assertRaisesRegex(ValueError,'anunciou 2'):
+            parse_page(terabyte_html([1],2,more=False),'terabyte',url)
+        _, following=parse_page(terabyte_html([1,2],2,more=False),'terabyte',url)
+        self.assertIsNone(following)
+
     def test_advertised_prices_not_old_price_or_percentage(self):
         items, following = parse_page(kabum_html(following=2,available=False),'kabum','https://www.kabum.com.br/hardware/processadores?page_number=1')
         self.assertEqual((items[0]['pricePix'],items[0]['priceCard']), (850,1000))
@@ -114,6 +130,33 @@ class PersistenceTests(unittest.TestCase):
 
 
 class CollectionTests(unittest.IsolatedAsyncioTestCase):
+    async def test_terabyte_clicks_more_and_only_publishes_new_products(self):
+        class Crawler:
+            def __init__(self): self.configs=[]
+            async def arun(self,url,config):
+                self.configs.append(config)
+                codes=[1] if len(self.configs)==1 else [1,2]
+                return SimpleNamespace(success=True,status_code=200,html=terabyte_html(codes,2,more=len(codes)<2))
+        crawler=Crawler();saved=[]
+        with patch('scripts.crawler_fornecedores.asyncio.sleep',return_value=None):
+            products,report=await collect_category(crawler,'terabyte','Placa de Vídeo','https://www.terabyteshop.com.br/hardware/placas-de-video',save=lambda batch:saved.extend(batch))
+        self.assertTrue(report['complete'])
+        self.assertEqual((report['pages'],report['products'],len(saved)),(2,2,2))
+        self.assertFalse(crawler.configs[0].js_only)
+        self.assertTrue(crawler.configs[1].js_only)
+
+    async def test_transient_navigation_failure_is_retried(self):
+        class Crawler:
+            def __init__(self): self.calls=0
+            async def arun(self,**kwargs):
+                self.calls+=1
+                return SimpleNamespace(success=self.calls>1,status_code=200 if self.calls>1 else None,html=kabum_html())
+        crawler=Crawler()
+        with patch('scripts.crawler_fornecedores.asyncio.sleep',return_value=None):
+            _,report=await collect_category(crawler,'kabum','Processador','https://www.kabum.com.br/hardware/processadores')
+        self.assertTrue(report['complete'])
+        self.assertEqual(crawler.calls,2)
+
     async def test_pagination_and_block_preserve_successful_batches(self):
         class Crawler:
             def __init__(self): self.urls=[]

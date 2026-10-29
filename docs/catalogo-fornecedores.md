@@ -51,6 +51,12 @@ Não mover a pasta do projeto sem executar a instalação novamente, para atuali
 
 Interface e API publicadas em `biosinformatica.store`. Os testes cobrem extração, paginação, transações, preservação de preços de venda e orçamentos, recuperação da fila local e isolamento da chave de sincronização em relação aos dados administrativos.
 
+## Verificação da cobertura
+
+O relatório só comprova as nove categorias configuradas, não todos os departamentos das lojas. Na Terabyte, o coletor aciona **Ver mais produtos** na mesma sessão até alcançar o total anunciado em `tera-facet-counts`. Se o botão falhar, se o total não for alcançado ou se o limite de segurança for atingido, a categoria fica incompleta. Cada clique conta como uma página/lote no relatório. Falhas temporárias de navegação recebem até duas novas tentativas; bloqueios HTTP 403 permanecem como falha.
+
+Só considerar a execução concluída com todas as categorias `complete: true`, nenhuma limitação e fila de envio zerada. A execução verde do GitHub confirma também o envio reconhecido pelo site. O cron `0 3,15 * * *` solicita 00h e 12h de Brasília; o GitHub pode atrasar ou deixar de iniciar execuções agendadas. O computador precisa estar ligado, com internet e com o usuário conectado para a tarefa local.
+
 ## Fotos e compra
 
 Cada oferta preserva a URL original do produto e a URL da foto fornecida pela loja. As fotos aparecem nos resultados, nas ofertas cadastradas e nos itens do orçamento no painel. O botão **Comprar na loja** abre a página original em outra aba. O link continua disponível ao salvar e reabrir o orçamento, usando o produto vinculado e o endereço original guardado no item. A falta de uma foto não impede consultar o produto; imagens que falham são substituídas por um indicador. As imagens são carregadas dos servidores das lojas, sem copiar todos os arquivos para a hospedagem.

@@ -135,6 +135,20 @@ def parse_terabyte(soup):
 
 
 def next_page(soup, store, current_url):
+    if store == 'terabyte':
+        counts = soup.select_one('#tera-facet-counts')
+        total = int(json.loads(counts.get_text())['total']) if counts else None
+        rendered = len({a.get('href') for a in soup.select('.product-item a.product-item__name')})
+        more = soup.select_one('.tfv2-more')
+        visible = more is not None and not re.search(r'display\s*:\s*none', more.get('style', ''), re.I)
+        if total is not None and rendered < total:
+            if not visible:
+                raise ValueError(f'Terabyte anunciou {total} produtos, mas exibiu apenas {rendered}')
+            # The next batch is appended by JavaScript in the same browser session.
+            return current_url
+        if total is None and visible:
+            return current_url
+        return None
     if store == 'kabum':
         pagination = kabum_catalog(soup)['pagination']
         page = int(pagination.get('next') or 0)
@@ -233,17 +247,35 @@ def save_log(conn, postgres, supplier, status, message):
 async def collect_category(crawler, store, category, url, *, pages=0, max_pages=100, save=None):
     from crawl4ai import CacheMode, CrawlerRunConfig
     report = {'store':store,'category':category,'pages':0,'products':0,'complete':False}
-    visited, known, products = set(), set(), []
+    visited, known, products, load_more = set(), set(), [], False
     try:
         while url:
-            if url in visited:
+            if url in visited and not load_more:
                 raise ValueError('Paginação repetiu uma URL')
             visited.add(url)
             await asyncio.sleep(5)
-            result = await crawler.arun(url=url, config=CrawlerRunConfig(
-                session_id='catalog-' + store,cache_mode=CacheMode.BYPASS,page_timeout=60000,delay_before_return_html=2,verbose=False))
+            options = dict(session_id='catalog-' + store,cache_mode=CacheMode.BYPASS,
+                           page_timeout=60000,delay_before_return_html=2,verbose=False)
+            if load_more:
+                options.update(js_only=True,
+                    js_code_before_wait="window.__biosCount=document.querySelectorAll('.product-item').length;document.querySelector('.tfv2-more').click();",
+                    wait_for="js:() => document.querySelectorAll('.product-item').length > window.__biosCount",
+                    wait_for_timeout=30000)
+            for attempt in range(3):
+                result = await crawler.arun(url=url, config=CrawlerRunConfig(**options))
+                status = getattr(result,'status_code',None)
+                if result.success and (status or 0) < 400:
+                    break
+                # Retrying a button click could skip a batch; leave it partial instead.
+                if load_more or (status and status < 500) or attempt == 2:
+                    break
+                await asyncio.sleep(10 * (attempt + 1))
             if not result.success or (getattr(result,'status_code',0) or 0) >= 400:
                 raise ValueError('Loja indisponível ou bloqueada (HTTP ' + str(getattr(result,'status_code',None)) + ')')
+            if store == 'terabyte':
+                counts = BeautifulSoup(result.html or '', 'html.parser').select_one('#tera-facet-counts')
+                if counts:
+                    report['expectedProducts'] = int(json.loads(counts.get_text())['total'])
             items, following = parse_page(result.html, store, url)
             fresh = [p for p in items if p['url'] not in known]
             if not fresh:
@@ -268,6 +300,7 @@ async def collect_category(crawler, store, category, url, *, pages=0, max_pages=
                     report['error'] = 'Limite de segurança atingido; coleta parcial'
                 break
             url = following
+            load_more = store == 'terabyte'
     except Exception as error:
         # Database exception strings can contain connection credentials.
         report['error'] = str(error) if isinstance(error,ValueError) else type(error).__name__
