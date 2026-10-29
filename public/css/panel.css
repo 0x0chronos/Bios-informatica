@@ -1760,6 +1760,20 @@ select.filter-select:focus {
     cursor: pointer;
   }
   .supplier-select-offer .search-item-price { margin-left: 0; text-align: right; }
+  .supplier-add-label { display: block; margin-top: 6px; color: var(--accent); font-weight: 650; }
+  .supplier-select-offer:disabled { cursor: not-allowed; }
+  .supplier-offer-title { font-weight: 650; color: var(--text); line-height: 1.4; overflow-wrap: anywhere; }
+  .supplier-offer-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .supplier-offer-actions .supplier-add-quote { white-space: normal; text-align: left; }
+  .supplier-add-quote:disabled { background: var(--panel-elevated); color: var(--muted); opacity: .65; cursor: not-allowed; transform: none; }
+  .supplier-offer-prices { min-width: 200px; }
+  .supplier-offer-prices > div { margin-bottom: 5px; }
+  .supplier-offer-prices > div > span:first-child { display: block; font-size: .72rem; color: var(--muted); }
+  .supplier-offer-prices strong { color: var(--accent); font-size: 1rem; }
+  .supplier-sale-price { border-top: 1px solid var(--line); margin-top: 8px; padding-top: 8px; }
+  .supplier-price-note { color: var(--muted); font-size: .75rem; margin-top: 6px; }
+  .supplier-manage-actions .btn { margin: 0 0 6px; }
+  .supplier-offers-pagination { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 12px; padding: 16px; font-size: .8rem; }
   .supplier-purchase-link {
     display: inline-flex;
     align-items: center;
@@ -1776,8 +1790,22 @@ select.filter-select:focus {
   }
   .supplier-select-offer:focus-visible, .supplier-purchase-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   @media (max-width: 600px) {
+    .topbar-left { flex: 1; min-width: 0; }
+    .topbar-title { font-size: .95rem; overflow-wrap: anywhere; }
+    .topbar-actions, .sidebar-toggle { flex-shrink: 0; }
     .supplier-quote-result .supplier-select-offer { flex-basis: 100%; }
     .supplier-quote-result > .supplier-purchase-link { margin-left: 64px; }
+    #offersTable, #offersTable tbody, #offersTable tr, #offersTable td { display: block; width: 100%; }
+    #offersTable thead { display: none; }
+    #offersTable tr { padding: 16px; border-bottom: 1px solid var(--line); }
+    #offersTable td { border: 0; padding: 8px 0; }
+    #offersTable td[data-label="Valores"]::before, #offersTable td[data-label="Última consulta"]::before { content: attr(data-label); display: block; color: var(--muted); font-size: .72rem; margin-bottom: 5px; }
+    #offersTable .supplier-product-cell { align-items: flex-start; }
+    #offersTable .supplier-offer-prices { min-width: 0; }
+    #offersTable .supplier-offer-actions { margin-left: -64px; }
+    #offersTable .supplier-offer-actions .supplier-add-quote { flex-basis: 100%; text-align: center; }
+    #offersTable .supplier-manage-actions .btn { margin-right: 6px; }
+    #offersTable .supplier-offer-prices .supplier-price-note > span { display: inline; }
   }
 
 .search-item-name {

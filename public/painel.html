@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#101a19">
   <title>Painel de Gestão de OS | Bios Informática</title>
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/css/panel.css?v=20261028-catalog-media-v2">
+  <link rel="stylesheet" href="/css/panel.css?v=20261029-offer-quote-v1">
 </head>
 <body>
 
@@ -1010,11 +1010,11 @@
               </span>
               <h3 style="margin:0;font-size:1.05rem;color:var(--text)">Filtrar Ofertas Cadastradas</h3>
             </div>
-            <span style="font-size:0.82rem;color:var(--muted)" id="offersCountDisplay">0 ofertas registradas</span>
+            <span style="font-size:0.82rem;color:var(--muted)" id="offersFilterCountDisplay">0 ofertas registradas</span>
           </div>
           <div class="card-body" style="padding:var(--space-md)">
             <p style="font-size:0.85rem;color:var(--muted);margin-bottom:14px">
-              Consulte e filtre apenas as ofertas já registradas no banco de dados da Bios Informática.
+              Escolha um produto e clique em “Adicionar ao orçamento”. O custo da loja e o valor de venda entram no orçamento, onde você pode selecionar o cliente e ajustar os valores. Por padrão, mostramos produtos com preço que não estão esgotados.
             </p>
             <div class="filter-bar" style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
               <div style="flex:1;min-width:220px">
@@ -1026,6 +1026,13 @@
                   <option value="kabum">KaBuM!</option>
                   <option value="pichau">Pichau</option>
                   <option value="terabyte">TerabyteShop</option>
+                </select>
+              </div>
+              <div style="width:160px">
+                <select id="offerFilterPricing" onchange="filterOffers()" style="width:100%" aria-label="Filtrar por preço para orçamento">
+                  <option value="ready">Com preço para orçamento</option>
+                  <option value="all">Todos os produtos</option>
+                  <option value="unpriced">Sem preço informado</option>
                 </select>
               </div>
               <div style="width:160px">
@@ -1055,20 +1062,18 @@
                 <tr>
                   <th style="width:110px">Loja</th>
                   <th>Produto / Especificação</th>
-                  <th>Peça Vinculada (Catálogo)</th>
-                  <th style="width:110px">Preço Pix</th>
-                  <th style="width:130px">Cartão / Parcelas</th>
-                  <th style="width:110px">Frete</th>
+                  <th style="width:210px">Valores de compra e venda</th>
                   <th style="width:100px">Disponibilidade</th>
                   <th style="width:120px">Última Consulta</th>
-                  <th style="width:120px;text-align:right">Ações</th>
+                  <th style="width:120px">Gerenciar</th>
                 </tr>
               </thead>
               <tbody id="offersTableBody">
-                <tr><td colspan="9" class="empty-state"><p>Nenhuma oferta de fornecedor cadastrada.</p></td></tr>
+                <tr><td colspan="6" class="empty-state"><p>Nenhuma oferta de fornecedor cadastrada.</p></td></tr>
               </tbody>
             </table>
           </div>
+          <nav id="offersPagination" class="supplier-offers-pagination" aria-label="Páginas das ofertas"></nav>
         </div>
 
         <!-- Configuração de Atualização Diária & Logs -->
@@ -2030,6 +2035,6 @@
     <div id="toastMessage">Operação realizada com sucesso!</div>
   </div>
 
-  <script src="/js/panel.js?v=20261028-catalog-media-v2" defer></script>
+  <script src="/js/panel.js?v=20261029-offer-quote-v1" defer></script>
 </body>
 </html>

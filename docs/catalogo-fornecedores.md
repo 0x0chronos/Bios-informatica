@@ -57,6 +57,12 @@ O relatório só comprova as nove categorias configuradas, não todos os departa
 
 Só considerar a execução concluída com todas as categorias `complete: true`, nenhuma limitação e fila de envio zerada. A execução verde do GitHub confirma também o envio reconhecido pelo site. O cron `0 3,15 * * *` solicita 00h e 12h de Brasília; o GitHub pode atrasar ou deixar de iniciar execuções agendadas. O computador precisa estar ligado, com internet e com o usuário conectado para a tarefa local.
 
+## Adicionar produtos ao orçamento
+
+Em **Fornecedores & Ofertas**, a lista começa com **Com preço para orçamento**: produtos com preço Pix ou cartão informado e que não estão esgotados. O filtro **Todos os produtos** inclui esgotados e itens sem preço; **Sem preço informado** permite conferir esses casos. As ofertas são exibidas em páginas de 30 itens.
+
+O botão **Adicionar ao orçamento** fica junto ao produto. Ele abre o orçamento com descrição, foto, link, custo da loja e preço de venda; o usuário seleciona o cliente e pode ajustar os valores antes de salvar. Usa o preço de venda cadastrado quando positivo; na ausência dele, mostra uma sugestão com acréscimo de 25%. Preço ausente aparece como **Não informado** e venda sem base como **A definir**, nunca como uma oferta gratuita. Itens sem preço e esgotados não podem ser adicionados automaticamente.
+
 ## Fotos e compra
 
 Cada oferta preserva a URL original do produto e a URL da foto fornecida pela loja. As fotos aparecem nos resultados, nas ofertas cadastradas e nos itens do orçamento no painel. O botão **Comprar na loja** abre a página original em outra aba. O link continua disponível ao salvar e reabrir o orçamento, usando o produto vinculado e o endereço original guardado no item. A falta de uma foto não impede consultar o produto; imagens que falham são substituídas por um indicador. As imagens são carregadas dos servidores das lojas, sem copiar todos os arquivos para a hospedagem.

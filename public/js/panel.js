@@ -1852,6 +1852,22 @@ function supplierPurchaseLink(value) {
   return url ? `<a class="supplier-purchase-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Comprar na loja <span aria-hidden="true">↗</span></a>` : '';
 }
 
+function supplierOfferPricing(offer) {
+  const positive = value => value != null && value !== '' && Number.isFinite(Number(value)) && Number(value) > 0 ? Number(value) : null;
+  const pix = positive(offer.pricePix), card = positive(offer.priceCard);
+  const cost = pix ?? card;
+  const configuredSale = positive(offer.partSellPrice);
+  const sale = configuredSale ?? (cost == null ? null : Math.round(cost * 125) / 100);
+  const reason = offer.availability === 'esgotado' ? 'Esgotado na loja' : cost == null ? 'Preço não informado pela loja' : '';
+  return { pix, card, cost, sale, canQuote: !reason, reason, saleLabel: configuredSale ? 'Venda Bios' : 'Venda sugerida (+25%)' };
+}
+
+function supplierQuoteButton(offer) {
+  const pricing = supplierOfferPricing(offer);
+  const id = encodeURIComponent(offer.id).replace(/'/g, '%27');
+  return `<button type="button" class="btn btn-primary btn-sm supplier-add-quote" onclick="addOfferToQuote(decodeURIComponent('${id}'))" ${pricing.canQuote ? '' : 'disabled'} title="${escapeHtml(pricing.reason || 'Abrir orçamento com este produto, custo e valor de venda')}">Adicionar ao orçamento</button>`;
+}
+
 function handleQuoteCatalogSearch(query) {
   const sequence = ++quoteCatalogSearchSequence;
   clearTimeout(quoteCatalogSearchTimer);
@@ -1938,15 +1954,16 @@ function handleQuoteCatalogSearch(query) {
       target.innerHTML = data.results.length ? `<div class="search-group-title">Fornecedores (${data.total} ofertas)</div>` + data.results.map(o => {
         const checked = o.lastChecked ? new Date(o.lastChecked).toLocaleString('pt-BR') : 'Não conferido';
         const available = o.availability === 'em_estoque' ? 'Disponível na loja' : o.availability === 'esgotado' ? 'Esgotado' : 'Disponibilidade a confirmar';
-        const cost = o.pricePix ?? o.priceCard;
+        const pricing = supplierOfferPricing(o);
+        const cost = pricing.cost;
         const offerId = encodeURIComponent(o.id).replace(/'/g, '%27');
         return `<div class="search-item-row supplier-quote-result">
-          <button type="button" class="supplier-select-offer" onclick="addOfferToQuote(decodeURIComponent('${offerId}'))" aria-label="${escapeHtml('Adicionar ao orçamento: ' + o.title)}">
+          <button type="button" class="supplier-select-offer" onclick="addOfferToQuote(decodeURIComponent('${offerId}'))" ${pricing.canQuote ? '' : 'disabled'} aria-label="${escapeHtml('Adicionar ao orçamento: ' + o.title)}">
           ${supplierPhoto(o.imageUrl, o.title)}
           <span class="supplier-product-details"><span class="search-item-name">${escapeHtml(o.title)}</span>
           <span class="search-item-meta">${escapeHtml(o.supplierName || o.supplier)} · ${escapeHtml(available)}${o.isStale ? ' · Atualização pendente' : ''}</span>
           <span class="search-item-meta">Conferido: ${escapeHtml(checked)}</span></span>
-          <span class="search-item-price">${cost == null ? 'Preço a confirmar' : formatCurrency(cost)}<small style="display:block">Custo ${o.pricePix != null ? 'Pix' : 'cartão'}</small></span>
+          <span class="search-item-price">${cost == null ? 'Preço não informado' : formatCurrency(cost)}<small style="display:block">${cost == null ? '' : 'Custo ' + (pricing.pix != null ? 'Pix' : 'cartão')}</small><small class="supplier-add-label">${pricing.canQuote ? 'Adicionar ao orçamento' : escapeHtml(pricing.reason)}</small></span>
           </button>
           ${supplierPurchaseLink(o.url)}
         </div>`;
@@ -2976,13 +2993,17 @@ async function refreshSupplierOffers() {
   showToast('Dados de fornecedores atualizados com sucesso!');
 }
 
-function filterOffers() {
+function filterOffers(page = 1) {
   const offers = DB.get('supplierOffers') || [];
   const q = (document.getElementById('offerSearch')?.value || '').toLowerCase().trim();
   const supFilter = document.getElementById('offerFilterSupplier')?.value || '';
   const availFilter = document.getElementById('offerFilterAvailability')?.value || '';
+  const priceFilter = document.getElementById('offerFilterPricing')?.value || 'ready';
 
   const filtered = offers.filter(o => {
+    const pricing = supplierOfferPricing(o);
+    if (priceFilter === 'ready' && !pricing.canQuote) return false;
+    if (priceFilter === 'unpriced' && pricing.cost != null) return false;
     if (supFilter && o.supplierId !== supFilter) return false;
     if (availFilter && o.availability !== availFilter) return false;
     if (q) {
@@ -2990,18 +3011,24 @@ function filterOffers() {
       if (!haystack.includes(q)) return false;
     }
     return true;
+  }).sort((a, b) => {
+    const first = supplierOfferPricing(a), second = supplierOfferPricing(b);
+    return Number(second.canQuote) - Number(first.canQuote) || (first.cost ?? Infinity) - (second.cost ?? Infinity) || a.title.localeCompare(b.title, 'pt-BR');
   });
 
-  const countDisplay = document.getElementById('offersCountDisplay');
-  if (countDisplay) {
-    countDisplay.textContent = `${filtered.length} de ${offers.length} ofertas`;
-  }
+  const size = 30, pages = Math.max(1, Math.ceil(filtered.length / size));
+  page = Math.max(1, Math.min(Number(page) || 1, pages));
+  document.querySelectorAll('#offersCountDisplay, #offersFilterCountDisplay').forEach(el => {
+    el.textContent = `${filtered.length} de ${offers.length} ofertas · página ${page} de ${pages}`;
+  });
+  const pagination = document.getElementById('offersPagination');
+  if (pagination) pagination.innerHTML = `<button type="button" class="btn btn-secondary btn-sm" ${page <= 1 ? 'disabled' : ''} onclick="filterOffers(${page - 1})">Anterior</button><span>Página ${page} de ${pages}</span><button type="button" class="btn btn-secondary btn-sm" ${page >= pages ? 'disabled' : ''} onclick="filterOffers(${page + 1})">Próxima</button>`;
 
   const tbody = document.getElementById('offersTableBody');
   if (!tbody) return;
 
   if (!filtered.length) {
-    tbody.innerHTML = '<tr><td colspan="9" class="empty-state"><p>Nenhuma oferta encontrada com os filtros selecionados.</p></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><p>Nenhuma oferta encontrada. Para consultar esgotados e itens sem preço, selecione “Todos os produtos”.</p></td></tr>';
     return;
   }
 
@@ -3011,7 +3038,8 @@ function filterOffers() {
     terabyte: '<span class="badge" style="background:rgba(255,152,0,0.15);color:#ff9800;border:1px solid rgba(255,152,0,0.4)">Terabyte</span>'
   };
 
-  tbody.innerHTML = filtered.map(o => {
+  tbody.innerHTML = filtered.slice((page - 1) * size, page * size).map(o => {
+    const pricing = supplierOfferPricing(o);
     const isStale = o.isStale === 1;
     const availBadge = o.availability === 'em_estoque'
       ? '<span class="badge badge-success">Em Estoque</span>'
@@ -3023,47 +3051,38 @@ function filterOffers() {
       ? formatCurrency(o.shippingFee)
       : '<span style="color:var(--muted)">Não consultado</span>';
 
-    const linkedPartText = o.partId
-      ? `<div style="font-weight:600;color:var(--text)">${escapeHtml(o.partBrand || '')} ${escapeHtml(o.partModel || '')}</div>
-         <div style="font-size:0.75rem;color:var(--muted)">Venda Bios: ${formatCurrency(o.partSellPrice)}</div>`
-      : '<span class="badge badge-muted">Avulsa (não vinculada)</span>';
-
-    const lastCheckedDate = o.lastChecked ? formatDate(o.lastChecked) + ' ' + (o.lastChecked.slice(11, 16) || '') : 'Nunca';
+    const lastCheckedDate = o.lastChecked ? new Date(o.lastChecked).toLocaleString('pt-BR') : 'Nunca';
 
     return `
       <tr style="${isStale ? 'background:rgba(247,208,112,0.04)' : ''}">
-        <td>
+        <td data-label="Loja">
           ${supplierBadges[o.supplierId] || `<span class="badge">${escapeHtml(o.supplierId)}</span>`}
           <div style="font-size:0.75rem;color:var(--muted);margin-top:4px">${escapeHtml(o.seller || o.supplierId)}</div>
         </td>
-        <td>
+        <td data-label="Produto">
           <div class="supplier-product-cell">${supplierPhoto(o.imageUrl, o.title)}<div class="supplier-product-details">
-          <div style="font-weight:600;color:var(--text);max-width:280px;line-height:1.3">${escapeHtml(o.title)}</div>
+          <div class="supplier-offer-title">${escapeHtml(o.title)}</div>
           <div style="font-size:0.75rem;color:var(--muted);margin-top:2px">
             ${o.storeSku ? `SKU: <code>${escapeHtml(o.storeSku)}</code> ` : ''}
             ${o.ean ? `EAN: <code>${escapeHtml(o.ean)}</code>` : ''}
           </div>
-          ${supplierPurchaseLink(o.url)}
+          <div class="supplier-offer-actions">${supplierQuoteButton(o)}${supplierPurchaseLink(o.url)}</div>
+          ${pricing.canQuote ? '' : `<div class="supplier-price-note">${escapeHtml(pricing.reason)}</div>`}
           </div></div>
         </td>
-        <td>${linkedPartText}</td>
-        <td>
-          <div style="font-weight:800;color:var(--accent);font-size:0.95rem">${o.pricePix !== null ? formatCurrency(o.pricePix) : '—'}</div>
-        </td>
-        <td>
-          <div style="font-weight:600;color:var(--text)">${o.priceCard !== null ? formatCurrency(o.priceCard) : '—'}</div>
+        <td data-label="Valores" class="supplier-offer-prices">
+          <div><span>Pix na loja</span><strong>${pricing.pix == null ? 'Não informado' : formatCurrency(pricing.pix)}</strong></div>
+          <div><span>Cartão na loja</span><b>${pricing.card == null ? 'Não informado' : formatCurrency(pricing.card)}</b></div>
           ${o.cardInstallments ? `<div style="font-size:0.72rem;color:var(--muted)">${escapeHtml(o.cardInstallments)}</div>` : ''}
+          <div class="supplier-sale-price"><span>${pricing.saleLabel}</span><b>${pricing.sale == null ? 'A definir' : formatCurrency(pricing.sale)}</b></div>
+          <div class="supplier-price-note">Frete: ${shippingText}</div>
         </td>
-        <td>${shippingText}</td>
-        <td>${availBadge}</td>
-        <td>
+        <td data-label="Disponibilidade">${availBadge}</td>
+        <td data-label="Última consulta">
           <div style="font-size:0.8rem">${lastCheckedDate}</div>
           ${isStale ? '<span class="badge badge-warning" style="font-size:0.7rem;margin-top:2px" title="Falha na última consulta. O preço anterior foi preservado.">Preço Antigo</span>' : ''}
         </td>
-        <td style="text-align:right;white-space:nowrap">
-          <button class="btn btn-secondary btn-sm" onclick="addOfferToQuote('${escapeHtml(o.id)}')" title="Incluir como peça no orçamento">
-            + Orçamento
-          </button>
+        <td data-label="Gerenciar" class="supplier-manage-actions">
           <button class="btn btn-secondary btn-sm" onclick="syncSingleOffer('${escapeHtml(o.id)}')" title="Consultar preço ao vivo agora">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
           </button>
@@ -3085,9 +3104,10 @@ async function addOfferToQuote(offerId) {
   if (!o) return showToast('Oferta não encontrada.', 'error');
   if (o.availability === 'esgotado') return showToast('Esta oferta está esgotada na loja.', 'error');
 
-  const cost = o.pricePix || o.priceCard || 0;
-  if (!cost) return showToast('Confirme o preço desta oferta antes de adicioná-la.', 'error');
-  const suggestedPrice = o.partSellPrice > 0 ? o.partSellPrice : Math.round(cost * 1.25 * 100) / 100;
+  const pricing = supplierOfferPricing(o);
+  if (!pricing.canQuote) return showToast(pricing.reason, 'error');
+  const cost = pricing.cost;
+  const suggestedPrice = pricing.sale;
 
   // Se o modal de orçamento não estiver aberto, abre um novo orçamento
   const quoteModal = document.getElementById('quoteModalOverlay');
@@ -3176,6 +3196,7 @@ async function searchStores(page = 1) {
     };
 
     tbody.innerHTML = currentSearchResults.map((it, idx) => {
+      const pricing = supplierOfferPricing(it);
       const timeStr = it.lastChecked ? new Date(it.lastChecked).toLocaleString('pt-BR') : '—';
       const availBadge = it.availability === 'em_estoque'
         ? '<span class="badge badge-success">Disponível na loja</span>'
@@ -3184,7 +3205,7 @@ async function searchStores(page = 1) {
       return `
         <tr>
           <td style="text-align:center">
-            <input type="checkbox" class="chk-search-result" data-idx="${idx}" onchange="updateSelectedSearchCount()">
+            <input type="checkbox" class="chk-search-result" data-idx="${idx}" ${pricing.canQuote ? '' : 'disabled'} onchange="updateSelectedSearchCount()">
           </td>
           <td>${supplierBadges[it.supplier] || `<span class="badge">${escapeHtml(it.supplier)}</span>`}</td>
           <td><span style="font-size:0.8rem;color:var(--muted)">${escapeHtml(it.seller || it.supplierName)}</span></td>
@@ -3199,17 +3220,17 @@ async function searchStores(page = 1) {
             </div></div>
           </td>
           <td>
-            <div style="font-weight:800;color:var(--accent)">${it.pricePix !== null ? formatCurrency(it.pricePix) : '—'}</div>
+            <div style="font-weight:800;color:var(--accent)">${pricing.pix == null ? 'Não informado' : formatCurrency(pricing.pix)}</div>
           </td>
           <td>
-            <div style="font-weight:600;color:var(--text)">${it.priceCard !== null ? formatCurrency(it.priceCard) : '—'}</div>
+            <div style="font-weight:600;color:var(--text)">${pricing.card == null ? 'Não informado' : formatCurrency(pricing.card)}</div>
             ${it.cardInstallments ? `<div style="font-size:0.7rem;color:var(--muted)">${escapeHtml(it.cardInstallments)}</div>` : ''}
           </td>
           <td><span style="color:var(--muted);font-size:0.8rem">Não consultado</span></td>
           <td>${availBadge}</td>
           <td><span style="font-size:0.8rem;color:var(--muted)">${timeStr}${it.isStale ? '<br>Atualização pendente' : ''}</span></td>
           <td style="text-align:right">
-            <button class="btn btn-secondary btn-sm" onclick="addOfferToQuote(decodeURIComponent('${encodeURIComponent(it.id).replace(/'/g, '%27')}'))">+ Orçamento</button>
+            ${supplierQuoteButton(it)}
           </td>
         </tr>
       `;
@@ -3228,7 +3249,7 @@ async function searchStores(page = 1) {
 
 function toggleSelectAllSearchResults(checked) {
   const checkboxes = document.querySelectorAll('.chk-search-result');
-  checkboxes.forEach(chk => chk.checked = checked);
+  checkboxes.forEach(chk => chk.checked = checked && !chk.disabled);
   updateSelectedSearchCount();
 }
 
