@@ -274,13 +274,13 @@ async def collect_category(crawler, store, category, url, *, pages=0, max_pages=
     return products, report
 
 
-async def run(args):
+async def run(args, publisher=None):
     from crawl4ai import AsyncWebCrawler, BrowserConfig
     selected = {k:v for k,v in DEPARTMENTS.items() if not args.category or args.category.casefold() in k.casefold()}
     if not selected:
         raise ValueError('Categoria não encontrada')
-    stores = list(STORES) if args.store == 'all' else [args.store]
-    conn, postgres = (None,False) if args.dry_run else open_database(args.database)
+    stores = getattr(args,'stores',None) or (list(STORES) if args.store == 'all' else [args.store])
+    conn, postgres = (None,False) if args.dry_run or publisher else open_database(args.database)
     reports, products, started = [], {}, utcnow()
     try:
         async with AsyncWebCrawler(config=BrowserConfig(headless=True,enable_stealth=True,verbose=False)) as crawler:
@@ -295,7 +295,7 @@ async def run(args):
                     if store != 'kabum':
                         url = urlunsplit(urlsplit(url)._replace(query=''))
                     items, report = await collect_category(crawler,store,category,url,pages=args.pages,max_pages=args.max_pages,
-                        save=(lambda batch:save_products(conn,postgres,batch,args.margin)) if conn else None)
+                        save=publisher.save if publisher else ((lambda batch:save_products(conn,postgres,batch,args.margin)) if conn else None))
                     reports.append(report)
                     print(json.dumps(report),flush=True)
                     failures = failures + 1 if report['pages'] == 0 else 0
@@ -324,16 +324,40 @@ def main():
     parser.add_argument('--max-pages',type=int,default=100)
     parser.add_argument('--database',help='SQLite explícito para teste local; em produção use DATABASE_URL')
     parser.add_argument('--dry-run',action='store_true')
+    parser.add_argument('--publish',action='store_true',help='Envia ao site sem acesso direto ao banco')
+    parser.add_argument('--queue-db',default='scratch/catalog-upload.sqlite')
     parser.add_argument('--output',default='scratch/catalog-report.json')
     parser.add_argument('--margin',type=float,default=.25,help='Acréscimo inicial; preços de venda existentes são preservados')
     args = parser.parse_args()
     if args.pages < 0 or args.max_pages < 1 or not math.isfinite(args.margin) or not 0 <= args.margin <= 10:
         parser.error('Limites ou acréscimo inválidos')
+    if args.publish and args.dry_run:
+        parser.error('--publish não pode ser combinado com --dry-run')
+    publisher = None
     try:
-        return asyncio.run(run(args))
+        if args.publish:
+            try:
+                from .catalog_publisher import CatalogPublisher
+            except ImportError:
+                from catalog_publisher import CatalogPublisher
+            token = os.environ.get('CATALOG_SYNC_TOKEN','')
+            if len(token) < 40:
+                raise ValueError('Configure CATALOG_SYNC_TOKEN para enviar ofertas ao site')
+            Path(args.queue_db).parent.mkdir(parents=True,exist_ok=True)
+            publisher = CatalogPublisher(args.queue_db,'https://biosinformatica.store/api/suppliers/catalog-sync',token)
+            publisher.flush()
+        result = asyncio.run(run(args,publisher=publisher))
+        if publisher:
+            publisher.flush()
+            if publisher.pending():
+                print(json.dumps({'pending':publisher.pending(),'uploadError':publisher.last_error}),file=sys.stderr)
+                return 1
+        return result
     except Exception as error:
         print('Falha: ' + (str(error) if isinstance(error,ValueError) else type(error).__name__),file=sys.stderr)
         return 1
+    finally:
+        if publisher: publisher.close()
 
 
 if __name__ == '__main__':
