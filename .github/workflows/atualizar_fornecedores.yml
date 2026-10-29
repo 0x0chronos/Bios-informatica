@@ -1,8 +1,8 @@
-name: Atualizar catálogo de fornecedores
+name: Atualizar catálogo KaBuM
 
 on:
   schedule:
-    # 00h e 12h em Brasília (UTC-3). A coleta termina depois do início agendado.
+    # KaBuM no GitHub; Pichau e Terabyte no computador do proprietário.
     - cron: '0 3,15 * * *'
   workflow_dispatch:
     inputs:
@@ -34,9 +34,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        store: [kabum, pichau, terabyte]
+        store: [kabum]
     env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      CATALOG_SYNC_TOKEN: ${{ secrets.CATALOG_SYNC_TOKEN }}
       CATEGORY: ${{ inputs.category || '' }}
       PAGES: ${{ inputs.pages || '0' }}
       DRY_RUN: ${{ inputs.dry_run || false }}
@@ -52,8 +52,8 @@ jobs:
       - name: Verificar configuração
         shell: bash
         run: |
-          if [[ "$DRY_RUN" != "true" && -z "$DATABASE_URL" ]]; then
-            echo "::error::Configure o secret DATABASE_URL com a conexão PostgreSQL do site."
+          if [[ "$DRY_RUN" != "true" && -z "$CATALOG_SYNC_TOKEN" ]]; then
+            echo "::error::Configure o secret CATALOG_SYNC_TOKEN para enviar ofertas ao site."
             exit 1
           fi
       - name: Instalar coletor e navegador
@@ -67,7 +67,7 @@ jobs:
         run: |
           args=(--all --store "$STORE" --pages "$PAGES" --output "scratch/catalog-$STORE.json")
           if [[ -n "$CATEGORY" ]]; then args+=(--category "$CATEGORY"); fi
-          if [[ "$DRY_RUN" == "true" ]]; then args+=(--dry-run); fi
+          if [[ "$DRY_RUN" == "true" ]]; then args+=(--dry-run); else args+=(--publish); fi
           python scripts/crawler_fornecedores.py "${args[@]}"
       - name: Guardar relatório da coleta
         if: always()
