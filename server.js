@@ -11,6 +11,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { openDatabase } = require('./scripts/database');
 const { searchCatalog } = require('./scripts/catalog');
+const { syncAuthenticator, ingestCatalog } = require('./scripts/catalog-sync');
 const { fetchSupplierPreview, validateUrlSecurity, searchStoreProducts } = require('./scripts/suppliers');
 const app = express();
 const JWT_SECRET = process.env.JWT_SECRET || '';
@@ -678,6 +679,9 @@ app.put('/api/company-settings',asyncRoute(async(req,res)=>{
 }));
 
 // Suppliers & Pricing Monitor API
+app.post('/api/suppliers/catalog-sync',rateLimit({windowMs:60000,limit:240,standardHeaders:'draft-7',legacyHeaders:false}),syncAuthenticator(process.env.CATALOG_SYNC_CONFIG_PATH),asyncRoute(async(req,res)=>{
+ res.json(await mutate(()=>ingestCatalog(store,req.body?.products)));
+}));
 app.get('/api/suppliers/catalog',authenticate,asyncRoute(async(req,res)=>{
  res.set('Cache-Control','no-store');
  res.json(await searchCatalog(store,req.query));
