@@ -1825,6 +1825,33 @@ let quoteCatalogSearchSequence = 0;
 let quoteCatalogSearchTimer;
 const quoteCatalogOffers = new Map();
 
+function supplierPurchaseUrl(value) {
+  try {
+    const url = new URL(value);
+    if (url.protocol === 'https:' && !url.username && !url.password && !url.port && url.pathname !== '/' &&
+        ['kabum.com.br','www.kabum.com.br','pichau.com.br','www.pichau.com.br','terabyteshop.com.br','www.terabyteshop.com.br'].includes(url.hostname)) return url.href;
+  } catch {}
+  return '';
+}
+
+function supplierPhoto(imageUrl, title) {
+  let source = '';
+  try {
+    const url = new URL(imageUrl);
+    if (url.protocol === 'https:' && !url.username && !url.password && !url.port &&
+        /^(images\d*\.kabum\.com\.br|media\.pichau\.com\.br|img\.terabyteshop\.com\.br)$/.test(url.hostname)) source = url.href;
+  } catch {}
+  return `<span class="supplier-product-photo">
+    ${source ? `<img src="${escapeHtml(source)}" alt="${escapeHtml(title || 'Foto do produto')}" width="52" height="52" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.hidden=true">` : ''}
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" role="img" aria-label="Foto indisponível"><path d="m12 3 9 5v8l-9 5-9-5V8l9-5Z M3 8l9 5 9-5 M12 13v8"/></svg>
+  </span>`;
+}
+
+function supplierPurchaseLink(value) {
+  const url = supplierPurchaseUrl(value);
+  return url ? `<a class="supplier-purchase-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Comprar na loja <span aria-hidden="true">↗</span></a>` : '';
+}
+
 function handleQuoteCatalogSearch(query) {
   const sequence = ++quoteCatalogSearchSequence;
   clearTimeout(quoteCatalogSearchTimer);
@@ -1913,12 +1940,15 @@ function handleQuoteCatalogSearch(query) {
         const available = o.availability === 'em_estoque' ? 'Disponível na loja' : o.availability === 'esgotado' ? 'Esgotado' : 'Disponibilidade a confirmar';
         const cost = o.pricePix ?? o.priceCard;
         const offerId = encodeURIComponent(o.id).replace(/'/g, '%27');
-        return `<div class="search-item-row" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick="addOfferToQuote(decodeURIComponent('${offerId}'))">
-          ${o.imageUrl ? `<img src="${escapeHtml(o.imageUrl)}" width="34" height="34" style="object-fit:contain;background:#fff;flex-shrink:0" alt="">` : ''}
-          <div><div class="search-item-name">${escapeHtml(o.title)}</div>
-          <div class="search-item-meta">${escapeHtml(o.supplierName || o.supplier)} · ${escapeHtml(available)}${o.isStale ? ' · Atualização pendente' : ''}</div>
-          <div class="search-item-meta">Conferido: ${escapeHtml(checked)}</div></div>
-          <div class="search-item-price">${cost == null ? 'Preço a confirmar' : formatCurrency(cost)}<small style="display:block">Custo ${o.pricePix != null ? 'Pix' : 'cartão'}</small></div>
+        return `<div class="search-item-row supplier-quote-result">
+          <button type="button" class="supplier-select-offer" onclick="addOfferToQuote(decodeURIComponent('${offerId}'))" aria-label="${escapeHtml('Adicionar ao orçamento: ' + o.title)}">
+          ${supplierPhoto(o.imageUrl, o.title)}
+          <span class="supplier-product-details"><span class="search-item-name">${escapeHtml(o.title)}</span>
+          <span class="search-item-meta">${escapeHtml(o.supplierName || o.supplier)} · ${escapeHtml(available)}${o.isStale ? ' · Atualização pendente' : ''}</span>
+          <span class="search-item-meta">Conferido: ${escapeHtml(checked)}</span></span>
+          <span class="search-item-price">${cost == null ? 'Preço a confirmar' : formatCurrency(cost)}<small style="display:block">Custo ${o.pricePix != null ? 'Pix' : 'cartão'}</small></span>
+          </button>
+          ${supplierPurchaseLink(o.url)}
         </div>`;
       }).join('') : 'Nenhuma oferta encontrada no catálogo salvo. A coleta automática pode ainda estar pendente.';
     } catch (error) {
@@ -2117,11 +2147,16 @@ function renderQuoteItemRows() {
   tbody.innerHTML = currentQuoteItems.map((it, idx) => {
     const typeLabel = it.type === 'peca' ? 'Peça' : (it.type === 'servico' ? 'Serviço' : 'Avulso');
     const isLinked = !!it.itemId;
+    const part = it.type === 'peca' ? (DB.get('parts') || []).find(p => p.id === it.itemId) : null;
+    const storedUrl = (it.details || '').match(/https:\/\/[^\s<>|]+/g)?.find(url => supplierPurchaseUrl(url));
+    const purchaseUrl = it.type === 'peca' ? [it.supplierUrl,storedUrl,part?.notes].map(supplierPurchaseUrl).find(Boolean) || '' : '';
+    const imageUrl = it.imageUrl || part?.imageUrl;
 
     return `
       <tr class="quote-item-tr" id="quoteItemRow_${idx}">
         <td class="col-desc">
           <div class="desc-main-box">
+            ${purchaseUrl ? `<div class="supplier-quote-item-media">${supplierPhoto(imageUrl, it.name)}${supplierPurchaseLink(purchaseUrl)}</div>` : ''}
             <input type="text" class="quote-cell-input title-input" placeholder="Descrição do item ou serviço *" value="${escapeHtml(it.name)}" required oninput="updateQuoteItem(${idx}, 'name', this.value)">
             <textarea class="quote-cell-textarea" rows="2" placeholder="Descrição complementar opcional (especificações, modelo, garantia)..." oninput="updateQuoteItem(${idx}, 'details', this.value)">${escapeHtml(it.details || '')}</textarea>
             
@@ -2916,8 +2951,9 @@ function renderSuppliers() {
       el.className = 'badge badge-danger';
       el.textContent = 'Inativo';
     } else {
-      el.className = 'badge badge-warning';
-      el.textContent = 'Integração Pendente';
+      const hasOffers = offers.some(o => o.supplierId === sup.id);
+      el.className = hasOffers ? 'badge badge-success' : 'badge badge-warning';
+      el.textContent = hasOffers ? 'Catálogo disponível' : 'Aguardando coleta';
     }
   };
 
@@ -3001,11 +3037,14 @@ function filterOffers() {
           <div style="font-size:0.75rem;color:var(--muted);margin-top:4px">${escapeHtml(o.seller || o.supplierId)}</div>
         </td>
         <td>
+          <div class="supplier-product-cell">${supplierPhoto(o.imageUrl, o.title)}<div class="supplier-product-details">
           <div style="font-weight:600;color:var(--text);max-width:280px;line-height:1.3">${escapeHtml(o.title)}</div>
           <div style="font-size:0.75rem;color:var(--muted);margin-top:2px">
             ${o.storeSku ? `SKU: <code>${escapeHtml(o.storeSku)}</code> ` : ''}
             ${o.ean ? `EAN: <code>${escapeHtml(o.ean)}</code>` : ''}
           </div>
+          ${supplierPurchaseLink(o.url)}
+          </div></div>
         </td>
         <td>${linkedPartText}</td>
         <td>
@@ -3031,9 +3070,6 @@ function filterOffers() {
           <button class="btn btn-secondary btn-sm" onclick="openSupplierOfferModal('${escapeHtml(o.id)}')" title="Editar Oferta">
             Editar
           </button>
-          <a class="btn btn-ghost btn-sm" href="${escapeHtml(o.url)}" target="_blank" rel="noopener noreferrer" title="Abrir página na loja">
-            ↗
-          </a>
           <button class="btn btn-danger btn-sm" onclick="deleteOffer('${escapeHtml(o.id)}')" title="Excluir Oferta">
             ✕
           </button>
@@ -3073,6 +3109,8 @@ async function addOfferToQuote(offerId) {
     showDetails: false,
     supplier: o.supplierName || o.supplierId,
     sku: o.storeSku || '',
+    supplierUrl: supplierPurchaseUrl(o.url),
+    imageUrl: o.imageUrl || '',
     itemId: o.partId || null
   });
 
@@ -3151,11 +3189,14 @@ async function searchStores(page = 1) {
           <td>${supplierBadges[it.supplier] || `<span class="badge">${escapeHtml(it.supplier)}</span>`}</td>
           <td><span style="font-size:0.8rem;color:var(--muted)">${escapeHtml(it.seller || it.supplierName)}</span></td>
           <td>
+            <div class="supplier-product-cell">${supplierPhoto(it.imageUrl, it.title)}<div class="supplier-product-details">
             <div style="font-weight:600;color:var(--text);max-width:320px;line-height:1.3">${escapeHtml(it.title)}</div>
             <div style="font-size:0.75rem;color:var(--muted);margin-top:2px">
               ${it.storeSku ? `SKU: <code>${escapeHtml(it.storeSku)}</code> ` : ''}
               ${it.ean ? `EAN: <code>${escapeHtml(it.ean)}</code>` : ''}
             </div>
+            ${supplierPurchaseLink(it.url)}
+            </div></div>
           </td>
           <td>
             <div style="font-weight:800;color:var(--accent)">${it.pricePix !== null ? formatCurrency(it.pricePix) : '—'}</div>
@@ -3168,7 +3209,7 @@ async function searchStores(page = 1) {
           <td>${availBadge}</td>
           <td><span style="font-size:0.8rem;color:var(--muted)">${timeStr}${it.isStale ? '<br>Atualização pendente' : ''}</span></td>
           <td style="text-align:right">
-            <a class="btn btn-ghost btn-sm" href="${escapeHtml(it.url)}" target="_blank" rel="noopener noreferrer" title="Abrir link na loja">↗</a>
+            <button class="btn btn-secondary btn-sm" onclick="addOfferToQuote(decodeURIComponent('${encodeURIComponent(it.id).replace(/'/g, '%27')}'))">+ Orçamento</button>
           </td>
         </tr>
       `;

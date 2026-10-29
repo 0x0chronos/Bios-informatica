@@ -44,13 +44,16 @@ test('sync requires the actual dedicated token; a hash or admin cookie is insuff
 test('catalog sync preserves custom sale prices, approved quotes and original collection dates', async () => {
   const db = await database();
   try {
-    const first = product({lastChecked:new Date(Date.now()-60000).toISOString()});
+    const imageUrl = 'https://images.kabum.com.br/produtos/fotos/123/ssd.jpg';
+    const first = product({lastChecked:new Date(Date.now()-60000).toISOString(),imageUrl});
     assert.equal((await ingestCatalog(db,[first])).accepted,1);
     await db.run('UPDATE parts SET price=350');
     const update = product({pricePix:180});
     assert.equal((await ingestCatalog(db,[update])).accepted,1);
     assert.deepEqual(await db.get('SELECT cost,price,status FROM parts'),{cost:180,price:350,status:'sob_encomenda'});
     assert.equal((await db.get('SELECT total FROM quotes')).total,1200);
+    assert.deepEqual(await db.get('SELECT url,imageUrl FROM supplier_offers'),{url:first.url,imageUrl});
+    assert.equal((await db.get('SELECT imageUrl FROM parts')).imageUrl,imageUrl);
     assert.equal((await db.get('SELECT lastChecked FROM supplier_offers')).lastChecked,update.lastChecked);
     assert.equal((await ingestCatalog(db,[first])).skipped,1); // Delayed/offline delivery cannot replace newer data.
     assert.equal((await db.get('SELECT pricePix FROM supplier_offers')).pricePix,180);

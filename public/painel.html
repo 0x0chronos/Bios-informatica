@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#101a19">
   <title>Painel de Gestão de OS | Bios Informática</title>
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/css/panel.css?v=20261019-quote-table-v6">
+  <link rel="stylesheet" href="/css/panel.css?v=20261028-catalog-media-v2">
 </head>
 <body>
 
@@ -876,8 +876,8 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
               </div>
             </div>
-            <div style="font-size:0.84rem;color:var(--text);margin-top:6px">Conector automatizado com rate limit (2.5s) e SSRF blindado.</div>
-            <div style="font-size:0.75rem;color:var(--muted);margin-top:4px">Extração LD+JSON e vitrine oficial.</div>
+            <div style="font-size:0.84rem;color:var(--text);margin-top:6px">Produtos, fotos e links de compra coletados pelo GitHub.</div>
+            <div style="font-size:0.75rem;color:var(--muted);margin-top:4px">Coleta prevista para 00h e 12h de Brasília.</div>
             <div style="margin-top:12px;display:flex;gap:8px">
               <button class="btn btn-secondary btn-sm" onclick="toggleSupplierStatus('kabum')">Alternar Conector</button>
             </div>
@@ -893,8 +893,8 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
               </div>
             </div>
-            <div style="font-size:0.84rem;color:var(--text);margin-top:6px">Conector automatizado com rate limit (2.5s) e timeout de 10s.</div>
-            <div style="font-size:0.75rem;color:var(--muted);margin-top:4px">Extração de preços Pix, parcelamento e estoque.</div>
+            <div style="font-size:0.84rem;color:var(--text);margin-top:6px">Produtos, fotos e links de compra coletados pelo seu computador.</div>
+            <div style="font-size:0.75rem;color:var(--muted);margin-top:4px">Mantenha o computador ligado, com internet e seu usuário conectado.</div>
             <div style="margin-top:12px;display:flex;gap:8px">
               <button class="btn btn-secondary btn-sm" onclick="toggleSupplierStatus('pichau')">Alternar Conector</button>
             </div>
@@ -904,16 +904,16 @@
             <div class="stat-header">
               <div style="display:flex;align-items:center;gap:10px">
                 <span style="font-size:1.1rem;font-weight:750;color:#ff9800">TerabyteShop</span>
-                <span class="badge badge-warning" id="badgeTerabyteStatus">Integração Pendente</span>
+                <span class="badge badge-warning" id="badgeTerabyteStatus">Aguardando catálogo</span>
               </div>
               <div class="stat-icon warning">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
               </div>
             </div>
-            <div style="font-size:0.84rem;color:var(--text);margin-top:6px">Estrutura cadastrada e preparada para conector dedicado.</div>
-            <div style="font-size:0.75rem;color:var(--muted);margin-top:4px">Suporte completo a ofertas com cotação e revisão manual.</div>
+            <div style="font-size:0.84rem;color:var(--text);margin-top:6px">Produtos, fotos e links de compra coletados pelo seu computador.</div>
+            <div style="font-size:0.75rem;color:var(--muted);margin-top:4px">Mantenha o computador ligado, com internet e seu usuário conectado.</div>
             <div style="margin-top:12px;display:flex;gap:8px">
-              <span class="badge badge-muted" style="font-size:0.72rem">Cadastrado como pendente</span>
+              <button class="btn btn-secondary btn-sm" onclick="refreshSupplierOffers()">Atualizar lista</button>
             </div>
           </div>
 
@@ -924,7 +924,7 @@
           <div class="card-header" style="border-bottom:1px solid #1f3328">
             <div style="display:flex;align-items:center;gap:10px">
               <span class="badge" style="background:rgba(0,255,136,0.12);color:#00ff88;border:1px solid rgba(0,255,136,0.3)">
-                🌐 Descoberta Externa
+                Catálogo salvo
               </span>
               <h3 style="margin:0;font-size:1.05rem;color:var(--text)">Catálogo KaBuM!, Pichau e Terabyte</h3>
             </div>
@@ -932,7 +932,7 @@
           </div>
           <div class="card-body" style="padding:var(--space-md)">
             <p style="font-size:0.85rem;color:var(--muted);margin-bottom:14px">
-              Pesquise hardware e compare preços de mercado diretamente nas lojas parceiras. A busca externa respeita os limites por domínio e não dispara requisições a cada tecla.
+              Consulte produtos já coletados, veja as fotos e abra o link original para comprar na loja escolhida. Confira a data de atualização de cada oferta.
             </p>
             <div class="filter-bar" style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
               <div style="flex:1;min-width:240px">
@@ -1080,12 +1080,12 @@
             <div style="background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px;margin-bottom:14px">
               <div style="font-weight:700;color:var(--text);margin-bottom:4px">Atualização Diária de Produtos Acompanhados</div>
               <p style="font-size:0.84rem;color:var(--muted);margin-bottom:12px">
-                O módulo permite agendar a varredura automática das ofertas com <code>autoSync=1</code> em horário de baixo tráfego. Por diretriz desta homologação, o agendamento em produção permanece <strong>desativado</strong>.
+                A coleta está programada para 00h e 12h de Brasília. A KaBuM atualiza pelo GitHub; Pichau e Terabyte pelo seu computador, ligado, com internet e seu usuário conectado. Após entrar no Windows, o computador também tenta recuperar uma atualização pendente.
               </p>
               <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end">
                 <div class="form-group" style="margin:0;width:150px">
-                  <label for="schedSyncTime">Horário (SP)</label>
-                  <input type="time" id="schedSyncTime" value="06:00">
+                  <label for="catalogScheduleTimes">Horários (Brasília)</label>
+                  <input id="catalogScheduleTimes" value="00:00 e 12:00" readonly>
                 </div>
                 <div class="form-group" style="margin:0;width:180px">
                   <label for="schedSyncTz">Fuso Horário</label>
@@ -1093,11 +1093,8 @@
                 </div>
                 <div class="form-group" style="margin:0;width:180px">
                   <label>Status em Produção</label>
-                  <span class="badge badge-warning" style="display:inline-block;padding:8px 12px">Desativado nesta etapa</span>
+                  <span class="badge badge-success" style="display:inline-block;padding:8px 12px">Coleta programada</span>
                 </div>
-                <button class="btn btn-secondary btn-sm" onclick="saveSupplierSettings()" style="height:38px">
-                  Salvar Preferências
-                </button>
               </div>
             </div>
 
@@ -2033,6 +2030,6 @@
     <div id="toastMessage">Operação realizada com sucesso!</div>
   </div>
 
-  <script src="/js/panel.js?v=20261028-catalogo-v1" defer></script>
+  <script src="/js/panel.js?v=20261028-catalog-media-v2" defer></script>
 </body>
 </html>

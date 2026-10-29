@@ -50,3 +50,7 @@ Não mover a pasta do projeto sem executar a instalação novamente, para atuali
 ## Estado da publicação
 
 Interface e API publicadas em `biosinformatica.store`. Os testes cobrem extração, paginação, transações, preservação de preços de venda e orçamentos, recuperação da fila local e isolamento da chave de sincronização em relação aos dados administrativos.
+
+## Fotos e compra
+
+Cada oferta preserva a URL original do produto e a URL da foto fornecida pela loja. As fotos aparecem nos resultados, nas ofertas cadastradas e nos itens do orçamento no painel. O botão **Comprar na loja** abre a página original em outra aba. O link continua disponível ao salvar e reabrir o orçamento, usando o produto vinculado e o endereço original guardado no item. A falta de uma foto não impede consultar o produto; imagens que falham são substituídas por um indicador. As imagens são carregadas dos servidores das lojas, sem copiar todos os arquivos para a hospedagem.
